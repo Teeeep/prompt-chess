@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PromptChessTempSchema < GraphQL::Schema
+class PromptChessSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
