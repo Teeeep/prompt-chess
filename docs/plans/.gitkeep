@@ -1,0 +1,13 @@
+# Implementation Plans
+
+This directory contains design documents and implementation plans:
+
+- Design documents: `YYYY-MM-DD-<topic>-design.md`
+- Implementation plans: `YYYY-MM-DD-<topic>-plan.md`
+
+Plans are created using the Obra Superpowers workflow:
+1. BRAINSTORM → design document
+2. WRITE PLAN → implementation plan
+3. EXECUTE PLAN → working code
+
+Plans are versioned in git alongside the code they describe.

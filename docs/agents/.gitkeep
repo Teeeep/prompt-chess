@@ -1,0 +1,11 @@
+# Specialized Agent Context Files
+
+This directory contains detailed context documents for specialized development agents:
+
+- `architecture-context.md` - System design, database schema, service boundaries
+- `graphql-context.md` - GraphQL schema design, mutations, queries, resolvers
+- `rails-context.md` - Rails 8 conventions, Hotwire, ActiveRecord patterns
+- `testing-context.md` - RSpec patterns, factories, VCR, system tests
+- `reviewer-context.md` - Code review checklist, quality standards, security
+
+These files will be created as needed during development.
