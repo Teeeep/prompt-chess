@@ -69,3 +69,4 @@ yarn-debug.log*
 
 # Ignore RSpec examples status
 spec/examples.txt
+coverage/
