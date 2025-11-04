@@ -21,11 +21,11 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    # TODO: remove me
     field :test_field, String, null: false,
-      description: "An example field added by the generator"
+      description: "A simple test query to verify GraphQL is working"
+
     def test_field
-      "Hello World!"
+      "Hello from GraphQL!"
     end
   end
 end
