@@ -72,3 +72,4 @@ spec/examples.txt
 coverage/
 # Uncomment to ignore VCR cassettes
 # spec/vcr_cassettes/
+spec/examples.txt
