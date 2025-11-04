@@ -70,3 +70,5 @@ yarn-debug.log*
 # Ignore RSpec examples status
 spec/examples.txt
 coverage/
+# Uncomment to ignore VCR cassettes
+# spec/vcr_cassettes/
