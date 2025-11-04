@@ -43,13 +43,13 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 # GraphQL API
-gem 'graphql', '~> 2.1'
+gem "graphql", "~> 2.1"
 
 # Chess engine (for future phases, add now)
-gem 'chess', '~> 0.3'
+gem "chess", "~> 0.3"
 
 # Environment variables
-gem 'dotenv-rails', groups: [:development, :test]
+gem "dotenv-rails", groups: [ :development, :test ]
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -61,16 +61,16 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
-  gem 'rspec-rails', '~> 6.1'
-  gem 'factory_bot_rails', '~> 6.4'
-  gem 'faker', '~> 3.2'
-  gem 'pry-rails' # Debugging
+  gem "rspec-rails", "~> 6.1"
+  gem "factory_bot_rails", "~> 6.4"
+  gem "faker", "~> 3.2"
+  gem "pry-rails" # Debugging
 end
 
 group :test do
-  gem 'vcr', '~> 6.2'
-  gem 'webmock', '~> 3.19'
-  gem 'simplecov', '~> 0.22', require: false
+  gem "vcr", "~> 6.2"
+  gem "webmock", "~> 3.19"
+  gem "simplecov", "~> 0.22", require: false
 end
 
 group :development do
