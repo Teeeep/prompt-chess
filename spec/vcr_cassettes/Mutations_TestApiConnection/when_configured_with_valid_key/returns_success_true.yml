@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.anthropic.com/v1/messages
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-3-5-sonnet-20241022","max_tokens":10,"messages":[{"role":"user","content":"Hi"}]}'
+    headers:
+      X-Api-Key:
+      - sk-ant-api03-valid-test-key
+      Anthropic-Version:
+      - '2023-06-01'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 05 Nov 2025 10:01:38 GMT
+      Content-Type:
+      - application/json
+      Connection:
+      - keep-alive
+      Request-Id:
+      - req_valid_test_success
+    body:
+      encoding: UTF-8
+      string: '{"id":"msg_test_123","type":"message","role":"assistant","content":[{"type":"text","text":"Hi"}],"model":"claude-3-5-sonnet-20241022","stop_reason":"end_turn","usage":{"input_tokens":5,"output_tokens":2}}'
+  recorded_at: Wed, 05 Nov 2025 10:01:38 GMT
+recorded_with: VCR 6.3.1

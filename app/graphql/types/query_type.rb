@@ -43,5 +43,21 @@ module Types
     def agent(id:)
       Agent.find_by(id: id)
     end
+
+    field :current_llm_config, Types::LlmConfigType, null: true,
+      description: "Returns current LLM configuration for this session"
+
+    def current_llm_config
+      config = LlmConfigService.current(context[:session])
+      return nil unless config
+
+      # Handle both symbol and string keys (session serialization converts symbols to strings)
+      {
+        provider: config[:provider] || config["provider"],
+        model: config[:model] || config["model"],
+        api_key_last_four: LlmConfigService.masked_key(context[:session]),
+        configured_at: config[:configured_at] || config["configured_at"]
+      }
+    end
   end
 end

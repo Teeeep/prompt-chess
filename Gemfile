@@ -48,6 +48,10 @@ gem "graphql", "~> 2.1"
 # Chess engine (for future phases, add now)
 gem "chess", "~> 0.3"
 
+# HTTP client for Anthropic API
+gem 'faraday', '~> 2.7'
+gem 'faraday-retry', '~> 2.2'
+
 # Environment variables
 gem "dotenv-rails", groups: [ :development, :test ]
 
