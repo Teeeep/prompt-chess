@@ -100,8 +100,8 @@ RSpec.describe MoveValidator do
     end
 
     it 'returns true for stalemate position' do
-      # Stalemate position
-      fen = 'k7/8/1K6/8/8/8/8/1Q6 b - - 0 1'
+      # Stalemate position - king on h8 has no legal moves, not in check
+      fen = '7k/5Q2/6K1/8/8/8/8/8 b - - 0 1'
       validator = MoveValidator.new(fen: fen)
       expect(validator.game_over?).to be true
       expect(validator.stalemate?).to be true
@@ -121,7 +121,7 @@ RSpec.describe MoveValidator do
     end
 
     it 'returns stalemate for stalemated position' do
-      fen = 'k7/8/1K6/8/8/8/8/1Q6 b - - 0 1'
+      fen = '7k/5Q2/6K1/8/8/8/8/8 b - - 0 1'
       validator = MoveValidator.new(fen: fen)
       expect(validator.result).to eq('stalemate')
     end
