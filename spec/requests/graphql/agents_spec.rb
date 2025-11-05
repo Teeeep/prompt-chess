@@ -134,4 +134,196 @@ RSpec.describe 'Agents GraphQL API', type: :request do
       expect(agent_data['updatedAt']).to be_present
     end
   end
+
+  describe 'Mutation: createAgent' do
+    context 'with valid params' do
+      it 'creates agent' do
+        query = <<~GQL
+          mutation($input: CreateAgentInput!) {
+            createAgent(input: $input) {
+              agent {
+                id
+                name
+                role
+                promptText
+                configuration
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            name: 'Tactical Master',
+            role: 'tactical',
+            promptText: 'You are a tactical chess master who excels at finding combinations.',
+            configuration: { temperature: 0.8, max_tokens: 600 }
+          }
+        }
+
+        expect {
+          execute_graphql(query, variables: variables)
+        }.to change(Agent, :count).by(1)
+
+        result = execute_graphql(query, variables: variables)
+        agent_data = result['data']['createAgent']['agent']
+
+        expect(agent_data['name']).to eq('Tactical Master')
+        expect(agent_data['role']).to eq('tactical')
+        expect(agent_data['promptText']).to eq('You are a tactical chess master who excels at finding combinations.')
+        expect(agent_data['configuration']).to eq({ 'temperature' => 0.8, 'max_tokens' => 600 })
+      end
+
+      it 'returns created agent' do
+        query = <<~GQL
+          mutation($input: CreateAgentInput!) {
+            createAgent(input: $input) {
+              agent {
+                id
+                name
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            name: 'Test Agent',
+            promptText: 'Test prompt text for the agent.'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['createAgent']['agent']).to be_present
+        expect(result['data']['createAgent']['agent']['name']).to eq('Test Agent')
+      end
+
+      it 'returns empty errors array' do
+        query = <<~GQL
+          mutation($input: CreateAgentInput!) {
+            createAgent(input: $input) {
+              agent {
+                id
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            name: 'Test Agent',
+            promptText: 'Test prompt text here.'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['createAgent']['errors']).to eq([])
+      end
+
+      it 'sets default configuration if not provided' do
+        query = <<~GQL
+          mutation($input: CreateAgentInput!) {
+            createAgent(input: $input) {
+              agent {
+                configuration
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            name: 'Test Agent',
+            promptText: 'Test prompt text.'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['createAgent']['agent']['configuration']).to eq({})
+      end
+    end
+
+    context 'with invalid params' do
+      it 'does not create agent' do
+        query = <<~GQL
+          mutation($input: CreateAgentInput!) {
+            createAgent(input: $input) {
+              agent {
+                id
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            name: '',
+            promptText: 'short'
+          }
+        }
+
+        expect {
+          execute_graphql(query, variables: variables)
+        }.not_to change(Agent, :count)
+      end
+
+      it 'returns null agent' do
+        query = <<~GQL
+          mutation($input: CreateAgentInput!) {
+            createAgent(input: $input) {
+              agent {
+                id
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            name: '',
+            promptText: 'bad'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['createAgent']['agent']).to be_nil
+      end
+
+      it 'returns validation errors' do
+        query = <<~GQL
+          mutation($input: CreateAgentInput!) {
+            createAgent(input: $input) {
+              agent {
+                id
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            name: '',
+            promptText: 'short'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        errors = result['data']['createAgent']['errors']
+        expect(errors).to include(match(/Name is too short/))
+        expect(errors).to include(match(/Prompt text is too short/))
+      end
+    end
+  end
 end
