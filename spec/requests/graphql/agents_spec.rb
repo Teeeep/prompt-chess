@@ -327,4 +327,252 @@ RSpec.describe 'Agents GraphQL API', type: :request do
       end
     end
   end
+
+  describe 'Mutation: updateAgent' do
+    let!(:agent) { create(:agent, name: 'Original Name', role: 'tactical') }
+
+    context 'with valid params' do
+      it 'updates agent' do
+        query = <<~GQL
+          mutation($input: UpdateAgentInput!) {
+            updateAgent(input: $input) {
+              agent {
+                id
+                name
+                role
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s,
+            name: 'Updated Name',
+            role: 'positional'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['updateAgent']['agent']['name']).to eq('Updated Name')
+        expect(result['data']['updateAgent']['agent']['role']).to eq('positional')
+
+        agent.reload
+        expect(agent.name).to eq('Updated Name')
+        expect(agent.role).to eq('positional')
+      end
+
+      it 'returns updated agent' do
+        query = <<~GQL
+          mutation($input: UpdateAgentInput!) {
+            updateAgent(input: $input) {
+              agent {
+                id
+                name
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s,
+            name: 'New Name'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['updateAgent']['agent']).to be_present
+        expect(result['data']['updateAgent']['errors']).to eq([])
+      end
+
+      it 'supports partial updates (only name)' do
+        original_prompt = agent.prompt_text
+
+        query = <<~GQL
+          mutation($input: UpdateAgentInput!) {
+            updateAgent(input: $input) {
+              agent {
+                name
+                promptText
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s,
+            name: 'Just Name Changed'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['updateAgent']['agent']['name']).to eq('Just Name Changed')
+        expect(result['data']['updateAgent']['agent']['promptText']).to eq(original_prompt)
+      end
+
+      it 'supports partial updates (only prompt_text)' do
+        original_name = agent.name
+
+        query = <<~GQL
+          mutation($input: UpdateAgentInput!) {
+            updateAgent(input: $input) {
+              agent {
+                name
+                promptText
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s,
+            promptText: 'New prompt text for the agent here.'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['updateAgent']['agent']['name']).to eq(original_name)
+        expect(result['data']['updateAgent']['agent']['promptText']).to eq('New prompt text for the agent here.')
+      end
+
+      it 'supports partial updates (only role)' do
+        query = <<~GQL
+          mutation($input: UpdateAgentInput!) {
+            updateAgent(input: $input) {
+              agent {
+                role
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s,
+            role: 'endgame'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['updateAgent']['agent']['role']).to eq('endgame')
+      end
+
+      it 'supports partial updates (only configuration)' do
+        query = <<~GQL
+          mutation($input: UpdateAgentInput!) {
+            updateAgent(input: $input) {
+              agent {
+                configuration
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s,
+            configuration: { temperature: 0.9 }
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['updateAgent']['agent']['configuration']).to eq({ 'temperature' => '0.9' })
+      end
+    end
+
+    context 'with invalid params' do
+      it 'does not update agent' do
+        original_name = agent.name
+
+        query = <<~GQL
+          mutation($input: UpdateAgentInput!) {
+            updateAgent(input: $input) {
+              agent {
+                id
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s,
+            name: ''
+          }
+        }
+
+        execute_graphql(query, variables: variables)
+
+        agent.reload
+        expect(agent.name).to eq(original_name)
+      end
+
+      it 'returns validation errors' do
+        query = <<~GQL
+          mutation($input: UpdateAgentInput!) {
+            updateAgent(input: $input) {
+              agent {
+                id
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s,
+            promptText: 'short'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['updateAgent']['errors']).to include(match(/Prompt text is too short/))
+      end
+    end
+
+    context 'with non-existent ID' do
+      it 'returns error' do
+        query = <<~GQL
+          mutation($input: UpdateAgentInput!) {
+            updateAgent(input: $input) {
+              agent {
+                id
+              }
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: '99999',
+            name: 'New Name'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['updateAgent']['agent']).to be_nil
+        expect(result['data']['updateAgent']['errors']).to include(match(/not found/i))
+      end
+    end
+  end
 end
