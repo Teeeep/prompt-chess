@@ -17,8 +17,13 @@ class MoveValidator
 
     # Check if move is in legal moves list
     legal_moves.include?(move_san)
-  rescue
+  rescue Chess::IllegalMoveError, Chess::BadNotationError
+    # These exceptions are expected for invalid moves
     false
+  rescue => e
+    # Unexpected errors should be logged and re-raised
+    Rails.logger.error("Unexpected error in valid_move?: #{e.class} - #{e.message}")
+    raise
   end
 
   # Get all legal moves in current position

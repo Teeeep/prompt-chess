@@ -25,11 +25,30 @@ class StockfishService
     @level = level
     @engine = nil
     spawn_engine
+
+    # Register finalizer to ensure cleanup
+    ObjectSpace.define_finalizer(self, self.class.finalize(@pid))
+  end
+
+  # Finalizer for cleanup when object is garbage collected
+  def self.finalize(pid)
+    proc {
+      begin
+        Process.kill('TERM', pid) if pid
+        # Don't use Timeout in finalizer - it causes ThreadError in trap context
+        Process.wait(pid, Process::WNOHANG) if pid
+      rescue Errno::ESRCH, Errno::ECHILD
+        # Process already dead - that's okay
+      end
+    }
   end
 
   # Get Stockfish's move for a given position
   # Returns: { move: "e4", time_ms: 150 }
   def get_move(fen)
+    # Validate FEN before sending to engine
+    validate_fen!(fen)
+
     start_time = Time.now
 
     begin
@@ -66,11 +85,22 @@ class StockfishService
       @stdin.close unless @stdin.closed?
       @stdout.close unless @stdout.closed?
       @stderr.close unless @stderr.closed?
-      Process.wait(@pid) if @pid
-    rescue
-      # Ignore errors on close
+
+      # Wait for process with timeout
+      if @pid
+        Timeout.timeout(2) { Process.wait(@pid) }
+      end
+    rescue Timeout::Error
+      # Force kill if graceful shutdown times out
+      Process.kill('TERM', @pid) if @pid
+    rescue Errno::ESRCH, Errno::ECHILD
+      # Process already dead - that's fine
+    rescue => e
+      # Log but don't raise - we're cleaning up
+      Rails.logger.warn("Error closing Stockfish: #{e.message}")
     ensure
       @engine = nil
+      @pid = nil
     end
   end
 
@@ -149,5 +179,16 @@ class StockfishService
     san_move.include?(to_square)
   rescue
     false
+  end
+
+  def validate_fen!(fen)
+    # Validate FEN by trying to load it with chess gem
+    Chess::Game.load_fen(fen)
+  rescue ArgumentError => e
+    # Chess gem raises ArgumentError for invalid FEN
+    raise StockfishError, "Invalid FEN notation: #{fen} - #{e.message}"
+  rescue => e
+    # Catch any other errors from chess gem
+    raise StockfishError, "Invalid FEN notation: #{fen} - #{e.message}"
   end
 end

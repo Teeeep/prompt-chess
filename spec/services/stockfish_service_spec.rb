@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe StockfishService do
+RSpec.describe StockfishService, :stockfish do
   describe '#initialize' do
     it 'creates service with default level 5' do
       service = StockfishService.new
