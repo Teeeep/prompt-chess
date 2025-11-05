@@ -35,9 +35,10 @@ class StockfishService
     proc {
       begin
         Process.kill('TERM', pid) if pid
-        Timeout.timeout(2) { Process.wait(pid) }
-      rescue Errno::ESRCH, Errno::ECHILD, Timeout::Error
-        # Process already dead or timeout - that's okay
+        # Don't use Timeout in finalizer - it causes ThreadError in trap context
+        Process.wait(pid, Process::WNOHANG) if pid
+      rescue Errno::ESRCH, Errno::ECHILD
+        # Process already dead - that's okay
       end
     }
   end
@@ -183,9 +184,11 @@ class StockfishService
   def validate_fen!(fen)
     # Validate FEN by trying to load it with chess gem
     Chess::Game.load_fen(fen)
-  rescue Chess::FenFormatError => e
-    raise StockfishError, "Invalid FEN notation: #{fen} - #{e.message}"
   rescue ArgumentError => e
+    # Chess gem raises ArgumentError for invalid FEN
+    raise StockfishError, "Invalid FEN notation: #{fen} - #{e.message}"
+  rescue => e
+    # Catch any other errors from chess gem
     raise StockfishError, "Invalid FEN notation: #{fen} - #{e.message}"
   end
 end
