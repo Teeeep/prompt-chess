@@ -6,5 +6,6 @@ module Types
     field :update_agent, mutation: Mutations::UpdateAgent
     field :delete_agent, mutation: Mutations::DeleteAgent
     field :configure_anthropic_api, mutation: Mutations::ConfigureAnthropicApi
+    field :test_api_connection, mutation: Mutations::TestApiConnection
   end
 end
