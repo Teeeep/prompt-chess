@@ -27,5 +27,21 @@ module Types
     def test_field
       "Hello from GraphQL!"
     end
+
+    field :agents, [Types::AgentType], null: false,
+      description: "Returns all agents"
+
+    def agents
+      Agent.all
+    end
+
+    field :agent, Types::AgentType, null: true,
+      description: "Returns a single agent by ID" do
+      argument :id, ID, required: true
+    end
+
+    def agent(id:)
+      Agent.find_by(id: id)
+    end
   end
 end

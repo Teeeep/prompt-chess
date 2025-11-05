@@ -1,8 +1,6 @@
 require 'simplecov'
 SimpleCov.start 'rails' do
-  # Phase 1: Lower threshold for infrastructure setup
-  # Will be raised to 90% in Phase 2 when we add features
-  minimum_coverage 50
+  minimum_coverage 58
   add_filter '/spec/'
   add_filter '/config/'
   add_filter '/vendor/'
