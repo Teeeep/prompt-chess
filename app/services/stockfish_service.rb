@@ -45,6 +45,9 @@ class StockfishService
   # Get Stockfish's move for a given position
   # Returns: { move: "e4", time_ms: 150 }
   def get_move(fen)
+    # Validate FEN before sending to engine
+    validate_fen!(fen)
+
     start_time = Time.now
 
     begin
@@ -175,5 +178,14 @@ class StockfishService
     san_move.include?(to_square)
   rescue
     false
+  end
+
+  def validate_fen!(fen)
+    # Validate FEN by trying to load it with chess gem
+    Chess::Game.load_fen(fen)
+  rescue Chess::FenFormatError => e
+    raise StockfishError, "Invalid FEN notation: #{fen} - #{e.message}"
+  rescue ArgumentError => e
+    raise StockfishError, "Invalid FEN notation: #{fen} - #{e.message}"
   end
 end
