@@ -54,10 +54,30 @@ RSpec.describe AnthropicClient do
   end
 
   describe '#complete' do
-    it 'raises NotImplementedError with Phase 4 message' do
-      expect {
-        client.complete(prompt: 'test prompt')
-      }.to raise_error(NotImplementedError, /Phase 4/)
+    context 'with valid prompt', :vcr do
+      it 'returns completion with content and usage' do
+        result = client.complete(prompt: 'Say "hello" in one word', max_tokens: 10)
+
+        expect(result).to have_key(:content)
+        expect(result).to have_key(:usage)
+        expect(result[:content]).to be_a(String)
+        expect(result[:usage]).to have_key(:input_tokens)
+        expect(result[:usage]).to have_key(:output_tokens)
+        expect(result[:usage]).to have_key(:total_tokens)
+      end
+    end
+
+    context 'with network error' do
+      before do
+        allow_any_instance_of(Faraday::Connection).to receive(:post)
+          .and_raise(Faraday::ConnectionFailed.new('Connection refused'))
+      end
+
+      it 'raises Faraday::Error' do
+        expect {
+          client.complete(prompt: 'test prompt')
+        }.to raise_error(Faraday::Error)
+      end
     end
   end
 end
