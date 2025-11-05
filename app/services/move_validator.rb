@@ -1,18 +1,21 @@
 class MoveValidator
   class IllegalMoveError < StandardError; end
 
+  # Starting position FEN
+  STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+
   attr_reader :current_fen
 
   def initialize(fen: nil)
     @game = fen ? Chess::Game.load_fen(fen) : Chess::Game.new
-    @current_fen = @game.fen
+    @current_fen = @game.board.to_fen
   end
 
   # Check if a move is legal in current position
   def valid_move?(move_san)
     return false if move_san.nil? || move_san.empty?
 
-    # Try to find the move in legal moves
+    # Check if move is in legal moves list
     legal_moves.include?(move_san)
   rescue
     false
@@ -20,19 +23,20 @@ class MoveValidator
 
   # Get all legal moves in current position
   def legal_moves
-    @game.moves
+    @game.board.generate_all_moves
   end
 
   # Apply a move and update position
   # Returns new FEN string
   # Raises IllegalMoveError if move is invalid
   def apply_move(move_san)
-    unless valid_move?(move_san)
+    begin
+      @game.move(move_san)
+      @current_fen = @game.board.to_fen
+      @current_fen
+    rescue Chess::IllegalMoveError, Chess::BadNotationError => e
       raise IllegalMoveError, "Illegal move: #{move_san}"
     end
-
-    @game.move(move_san)
-    @current_fen = @game.fen
   end
 
   # Check if game is over (checkmate or stalemate)
@@ -42,12 +46,12 @@ class MoveValidator
 
   # Check if current position is checkmate
   def checkmate?
-    @game.checkmate?
+    @game.board.checkmate?
   end
 
   # Check if current position is stalemate
   def stalemate?
-    @game.stalemate?
+    @game.board.stalemate?
   end
 
   # Get game result

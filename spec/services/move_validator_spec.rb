@@ -4,7 +4,7 @@ RSpec.describe MoveValidator do
   describe '#initialize' do
     it 'creates validator with starting position' do
       validator = MoveValidator.new
-      expect(validator.current_fen).to eq(Chess::Game::DEFAULT_FEN)
+      expect(validator.current_fen).to eq(MoveValidator::STARTING_FEN)
     end
 
     it 'creates validator with custom FEN' do

@@ -180,6 +180,90 @@ RSpec.describe AgentMoveService do
     end
   end
 
+  describe 'retry logic' do
+    let(:service) do
+      AgentMoveService.new(
+        agent: agent,
+        validator: validator,
+        move_history: [],
+        session: session
+      )
+    end
+
+    context 'when LLM suggests invalid move' do
+      it 'retries up to 3 times' do
+        # Mock validator to reject first move, accept second
+        allow(validator).to receive(:valid_move?).with('Ke2').and_return(false)
+        allow(validator).to receive(:valid_move?).with('e4').and_return(true)
+
+        # Mock parse to return different moves
+        call_count = 0
+        allow(service).to receive(:parse_move_from_response) do
+          call_count += 1
+          call_count == 1 ? 'Ke2' : 'e4'
+        end
+
+        # Mock LLM to return responses
+        allow_any_instance_of(AnthropicClient).to receive(:complete).and_return(
+          { content: 'MOVE: Ke2', usage: { total_tokens: 50 } },
+          { content: 'MOVE: e4', usage: { total_tokens: 50 } }
+        )
+
+        result = service.generate_move
+        expect(result[:move]).to eq('e4')
+        expect(service).to have_received(:parse_move_from_response).twice
+      end
+
+      it 'raises error after 3 failed attempts' do
+        # Mock validator to always reject
+        allow(validator).to receive(:valid_move?).and_return(false)
+
+        # Mock parse to always return invalid move
+        allow(service).to receive(:parse_move_from_response).and_return('Ke2')
+
+        # Mock LLM to return responses
+        allow_any_instance_of(AnthropicClient).to receive(:complete).and_return(
+          { content: 'MOVE: Ke2', usage: { total_tokens: 50 } }
+        )
+
+        expect {
+          service.generate_move
+        }.to raise_error(AgentMoveService::InvalidMoveError, /failed to produce valid move after 3 attempts/i)
+      end
+    end
+
+    context 'when response has no parseable move' do
+      it 'retries with more explicit prompt' do
+        call_count = 0
+        allow_any_instance_of(AnthropicClient).to receive(:complete) do
+          call_count += 1
+          if call_count == 1
+            { content: "I think e4 is good", usage: { total_tokens: 50 } }  # No MOVE: marker
+          else
+            { content: "MOVE: e4", usage: { total_tokens: 50 } }             # Valid response
+          end
+        end
+
+        result = service.generate_move
+        expect(result[:move]).to eq('e4')
+      end
+
+      it 'raises error after 3 attempts with no parseable move' do
+        # Mock parse to always return nil
+        allow(service).to receive(:parse_move_from_response).and_return(nil)
+
+        # Mock LLM to return responses
+        allow_any_instance_of(AnthropicClient).to receive(:complete).and_return(
+          { content: 'I think e4 is good', usage: { total_tokens: 50 } }
+        )
+
+        expect {
+          service.generate_move
+        }.to raise_error(AgentMoveService::InvalidMoveError, /failed after 3 attempts/i)
+      end
+    end
+  end
+
   describe '#parse_move_from_response' do
     let(:service) do
       AgentMoveService.new(

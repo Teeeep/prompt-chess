@@ -1,6 +1,8 @@
 class AgentMoveService
   class InvalidMoveError < StandardError; end
 
+  MAX_RETRIES = 3
+
   def initialize(agent:, validator:, move_history:, session:)
     raise ArgumentError, "agent is required" unless agent
     raise ArgumentError, "validator is required" unless validator
@@ -20,40 +22,58 @@ class AgentMoveService
   #   time_ms: 500
   # }
   def generate_move
-    prompt = build_prompt
-    start_time = Time.now
+    retries = 0
+    all_prompts = []
+    all_responses = []
 
-    # Call LLM
-    anthropic = AnthropicClient.new(session: @session)
-    llm_response = anthropic.complete(prompt: prompt)
+    loop do
+      prompt = build_prompt(retry_attempt: retries)
+      all_prompts << prompt
+      start_time = Time.now
 
-    time_ms = ((Time.now - start_time) * 1000).to_i
+      # Call LLM
+      anthropic = AnthropicClient.new(session: @session)
+      llm_response = anthropic.complete(prompt: prompt)
+      all_responses << llm_response[:content]
 
-    # Parse move from response
-    move = parse_move_from_response(llm_response[:content])
+      time_ms = ((Time.now - start_time) * 1000).to_i
 
-    unless move
-      raise InvalidMoveError, "Could not parse move from response: #{llm_response[:content]}"
+      # Parse move from response
+      move = parse_move_from_response(llm_response[:content])
+
+      # Check if move is valid
+      if move && @validator.valid_move?(move)
+        return {
+          move: move,
+          prompt: all_prompts.join("\n---RETRY---\n"),
+          response: all_responses.join("\n---RETRY---\n"),
+          tokens: llm_response[:usage][:total_tokens],
+          time_ms: time_ms
+        }
+      end
+
+      # Increment retry counter
+      retries += 1
+
+      # Give up after max retries
+      if retries >= MAX_RETRIES
+        error_msg = if move
+          "Invalid move suggested: #{move}. Failed to produce valid move after #{MAX_RETRIES} attempts."
+        else
+          "Could not parse move from response. Failed after #{MAX_RETRIES} attempts."
+        end
+
+        raise InvalidMoveError, error_msg
+      end
+
+      # Continue loop to retry
     end
-
-    # Validate move
-    unless @validator.valid_move?(move)
-      raise InvalidMoveError, "Invalid move suggested: #{move}"
-    end
-
-    {
-      move: move,
-      prompt: prompt,
-      response: llm_response[:content],
-      tokens: llm_response[:usage][:total_tokens],
-      time_ms: time_ms
-    }
   end
 
   private
 
   def build_prompt(retry_attempt: 0)
-    <<~PROMPT
+    base_prompt = <<~PROMPT
       You are a chess-playing AI agent named "#{@agent.name}".
 
       Your personality and strategy: #{@agent.prompt_text}
@@ -66,16 +86,31 @@ class AgentMoveService
       - Your color: White
       - Move number: #{next_move_number}
       - Legal moves: #{@validator.legal_moves.join(', ')}
-
-      Analyze the position and respond with your next move.
-      Format: MOVE: [your move in standard algebraic notation]
-
-      Example responses:
-      - "I'll control the center with e4. MOVE: e4"
-      - "Developing the knight is best. MOVE: Nf3"
-
-      Now choose your move:
     PROMPT
+
+    if retry_attempt > 0
+      base_prompt += <<~RETRY
+
+        IMPORTANT: Your previous response was invalid. Please respond EXACTLY in this format:
+        MOVE: [choose ONE move from the legal moves list above]
+
+        Example: MOVE: e4
+      RETRY
+    else
+      base_prompt += <<~NORMAL
+
+        Analyze the position and respond with your next move.
+        Format: MOVE: [your move in standard algebraic notation]
+
+        Example responses:
+        - "I'll control the center with e4. MOVE: e4"
+        - "Developing the knight is best. MOVE: Nf3"
+
+        Now choose your move:
+      NORMAL
+    end
+
+    base_prompt
   end
 
   def format_move_history
