@@ -575,4 +575,119 @@ RSpec.describe 'Agents GraphQL API', type: :request do
       end
     end
   end
+
+  describe 'Mutation: deleteAgent' do
+    context 'with valid ID' do
+      let!(:agent) { create(:agent) }
+
+      it 'deletes agent' do
+        query = <<~GQL
+          mutation($input: DeleteAgentInput!) {
+            deleteAgent(input: $input) {
+              success
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s
+          }
+        }
+
+        expect {
+          execute_graphql(query, variables: variables)
+        }.to change(Agent, :count).by(-1)
+
+        expect(Agent.find_by(id: agent.id)).to be_nil
+      end
+
+      it 'returns success: true' do
+        query = <<~GQL
+          mutation($input: DeleteAgentInput!) {
+            deleteAgent(input: $input) {
+              success
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['deleteAgent']['success']).to eq(true)
+      end
+
+      it 'returns empty errors array' do
+        query = <<~GQL
+          mutation($input: DeleteAgentInput!) {
+            deleteAgent(input: $input) {
+              success
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: agent.id.to_s
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['deleteAgent']['errors']).to eq([])
+      end
+    end
+
+    context 'with non-existent ID' do
+      it 'returns success: false' do
+        query = <<~GQL
+          mutation($input: DeleteAgentInput!) {
+            deleteAgent(input: $input) {
+              success
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: '99999'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['deleteAgent']['success']).to eq(false)
+      end
+
+      it 'returns error message' do
+        query = <<~GQL
+          mutation($input: DeleteAgentInput!) {
+            deleteAgent(input: $input) {
+              success
+              errors
+            }
+          }
+        GQL
+
+        variables = {
+          input: {
+            id: '99999'
+          }
+        }
+
+        result = execute_graphql(query, variables: variables)
+
+        expect(result['data']['deleteAgent']['errors']).to include(match(/not found/i))
+      end
+    end
+  end
 end
