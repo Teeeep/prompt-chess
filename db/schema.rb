@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_05_073252) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_05_183829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -23,4 +23,47 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_05_073252) do
     t.datetime "updated_at", null: false
     t.index ["role"], name: "index_agents_on_role"
   end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "agent_id", null: false
+    t.integer "stockfish_level", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "winner"
+    t.string "result_reason"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.integer "total_moves", default: 0, null: false
+    t.string "opening_name"
+    t.integer "total_tokens_used", default: 0, null: false
+    t.integer "total_cost_cents", default: 0, null: false
+    t.integer "average_move_time_ms"
+    t.text "final_board_state"
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_matches_on_agent_id"
+    t.index ["created_at"], name: "index_matches_on_created_at"
+    t.index ["status"], name: "index_matches_on_status"
+  end
+
+  create_table "moves", force: :cascade do |t|
+    t.bigint "match_id", null: false
+    t.integer "move_number", null: false
+    t.integer "player", null: false
+    t.string "move_notation", null: false
+    t.text "board_state_before", null: false
+    t.text "board_state_after", null: false
+    t.text "llm_prompt"
+    t.text "llm_response"
+    t.integer "tokens_used"
+    t.integer "response_time_ms", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id", "move_number"], name: "index_moves_on_match_id_and_move_number", unique: true
+    t.index ["match_id", "player"], name: "index_moves_on_match_id_and_player"
+    t.index ["match_id"], name: "index_moves_on_match_id"
+  end
+
+  add_foreign_key "matches", "agents"
+  add_foreign_key "moves", "matches"
 end

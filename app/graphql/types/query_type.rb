@@ -59,5 +59,27 @@ module Types
         configured_at: config[:configured_at] || config["configured_at"]
       }
     end
+
+    field :match, Types::MatchType, null: true,
+      description: "Find a match by ID" do
+      argument :id, ID, required: true
+    end
+
+    def match(id:)
+      Match.find_by(id: id)
+    end
+
+    field :matches, [Types::MatchType], null: false,
+      description: "List matches with optional filters" do
+      argument :agent_id, ID, required: false
+      argument :status, Types::MatchStatusEnum, required: false
+    end
+
+    def matches(agent_id: nil, status: nil)
+      scope = Match.includes(:agent).order(created_at: :desc)
+      scope = scope.where(agent_id: agent_id) if agent_id
+      scope = scope.where(status: status) if status
+      scope
+    end
   end
 end
