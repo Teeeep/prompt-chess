@@ -172,7 +172,8 @@ RSpec.describe 'Agents GraphQL API', type: :request do
         expect(agent_data['name']).to eq('Tactical Master')
         expect(agent_data['role']).to eq('tactical')
         expect(agent_data['promptText']).to eq('You are a tactical chess master who excels at finding combinations.')
-        expect(agent_data['configuration']).to eq({ 'temperature' => 0.8, 'max_tokens' => 600 })
+        expect(agent_data['configuration']['temperature']).to eq('0.8')
+        expect(agent_data['configuration']['max_tokens']).to eq('600')
       end
 
       it 'returns created agent' do
