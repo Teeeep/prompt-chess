@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Chess Services Integration', type: :integration, :stockfish do
+RSpec.describe 'Chess Services Integration', :stockfish, type: :integration do
   describe 'MoveValidator + StockfishService' do
     it 'can play a short game between validator and engine' do
       validator = MoveValidator.new

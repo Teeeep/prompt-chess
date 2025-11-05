@@ -1,30 +1,40 @@
 # Helper to ensure Stockfish processes are cleaned up after tests
 # This prevents zombie processes when tests fail or are interrupted
 
-RSpec.configure do |config|
-  config.around(:each, :stockfish) do |example|
-    stockfish_services = []
+module StockfishTestHelper
+  # Track all StockfishService instances created during tests
+  @stockfish_services = []
 
-    # Track all StockfishService instances created during the test
-    original_new = StockfishService.method(:new)
+  def self.register_service(service)
+    @stockfish_services ||= []
+    @stockfish_services << service
+  end
 
-    allow(StockfishService).to receive(:new) do |*args, **kwargs|
-      service = original_new.call(*args, **kwargs)
-      stockfish_services << service
-      service
-    end
-
-    # Run the test
-    example.run
-
-    # Cleanup all services, even if test failed
-    stockfish_services.each do |service|
+  def self.cleanup_all
+    @stockfish_services ||= []
+    @stockfish_services.each do |service|
       begin
         service.close
       rescue => e
         # Ignore errors during cleanup
-        Rails.logger.debug("Error closing Stockfish service in test cleanup: #{e.message}")
       end
     end
+    @stockfish_services.clear
+  end
+end
+
+# Monkey-patch StockfishService to register instances
+class StockfishService
+  alias_method :original_initialize, :initialize
+
+  def initialize(*args, **kwargs)
+    original_initialize(*args, **kwargs)
+    StockfishTestHelper.register_service(self) if defined?(RSpec)
+  end
+end
+
+RSpec.configure do |config|
+  config.after(:each, :stockfish) do
+    StockfishTestHelper.cleanup_all
   end
 end
