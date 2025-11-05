@@ -1,5 +1,7 @@
 class AgentMoveService
   class InvalidMoveError < StandardError; end
+  class LlmApiError < StandardError; end
+  class ConfigurationError < StandardError; end
 
   MAX_RETRIES = 3
 
@@ -11,6 +13,11 @@ class AgentMoveService
     @validator = validator
     @move_history = move_history
     @session = session
+
+    # Validate LLM configuration
+    unless LlmConfigService.configured?(@session)
+      raise ConfigurationError, "LLM not configured in session"
+    end
   end
 
   # Generate the agent's next move
@@ -31,39 +38,45 @@ class AgentMoveService
       all_prompts << prompt
       start_time = Time.now
 
-      # Call LLM
-      anthropic = AnthropicClient.new(session: @session)
-      llm_response = anthropic.complete(prompt: prompt)
-      all_responses << llm_response[:content]
+      begin
+        # Call LLM
+        anthropic = AnthropicClient.new(session: @session)
+        llm_response = anthropic.complete(prompt: prompt)
+        all_responses << llm_response[:content]
 
-      time_ms = ((Time.now - start_time) * 1000).to_i
+        time_ms = ((Time.now - start_time) * 1000).to_i
 
-      # Parse move from response
-      move = parse_move_from_response(llm_response[:content])
+        # Parse move from response
+        move = parse_move_from_response(llm_response[:content])
 
-      # Check if move is valid
-      if move && @validator.valid_move?(move)
-        return {
-          move: move,
-          prompt: all_prompts.join("\n---RETRY---\n"),
-          response: all_responses.join("\n---RETRY---\n"),
-          tokens: llm_response[:usage][:total_tokens],
-          time_ms: time_ms
-        }
-      end
-
-      # Increment retry counter
-      retries += 1
-
-      # Give up after max retries
-      if retries >= MAX_RETRIES
-        error_msg = if move
-          "Invalid move suggested: #{move}. Failed to produce valid move after #{MAX_RETRIES} attempts."
-        else
-          "Could not parse move from response. Failed after #{MAX_RETRIES} attempts."
+        # Check if move is valid
+        if move && @validator.valid_move?(move)
+          return {
+            move: move,
+            prompt: all_prompts.join("\n---RETRY---\n"),
+            response: all_responses.join("\n---RETRY---\n"),
+            tokens: llm_response[:usage][:total_tokens],
+            time_ms: time_ms
+          }
         end
 
-        raise InvalidMoveError, error_msg
+        # Increment retry counter
+        retries += 1
+
+        # Give up after max retries
+        if retries >= MAX_RETRIES
+          error_msg = if move
+            "Invalid move suggested: #{move}. Failed to produce valid move after #{MAX_RETRIES} attempts."
+          else
+            "Could not parse move from response. Failed after #{MAX_RETRIES} attempts."
+          end
+
+          raise InvalidMoveError, error_msg
+        end
+      rescue Faraday::TimeoutError => e
+        raise LlmApiError, "Failed to get response from LLM (timeout): #{e.message}"
+      rescue Faraday::Error => e
+        raise LlmApiError, "Failed to get response from LLM: #{e.message}"
       end
 
       # Continue loop to retry

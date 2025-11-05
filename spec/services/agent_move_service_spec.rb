@@ -264,6 +264,56 @@ RSpec.describe AgentMoveService do
     end
   end
 
+  describe 'error handling' do
+    let(:service) do
+      AgentMoveService.new(
+        agent: agent,
+        validator: validator,
+        move_history: [],
+        session: session
+      )
+    end
+
+    context 'when LLM API fails' do
+      it 'raises error with helpful message' do
+        allow_any_instance_of(AnthropicClient).to receive(:complete).and_raise(
+          Faraday::Error.new('Connection failed')
+        )
+
+        expect {
+          service.generate_move
+        }.to raise_error(AgentMoveService::LlmApiError, /Failed to get response from LLM/)
+      end
+    end
+
+    context 'when LLM API times out' do
+      it 'raises timeout error' do
+        allow_any_instance_of(AnthropicClient).to receive(:complete).and_raise(
+          Faraday::TimeoutError
+        )
+
+        expect {
+          service.generate_move
+        }.to raise_error(AgentMoveService::LlmApiError, /timeout/)
+      end
+    end
+
+    context 'when session has no LLM config' do
+      let(:empty_session) { {} }
+
+      it 'raises configuration error' do
+        expect {
+          AgentMoveService.new(
+            agent: agent,
+            validator: validator,
+            move_history: [],
+            session: empty_session
+          ).generate_move
+        }.to raise_error(AgentMoveService::ConfigurationError, /LLM not configured/)
+      end
+    end
+  end
+
   describe '#parse_move_from_response' do
     let(:service) do
       AgentMoveService.new(
