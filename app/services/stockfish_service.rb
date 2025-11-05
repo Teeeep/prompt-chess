@@ -25,6 +25,21 @@ class StockfishService
     @level = level
     @engine = nil
     spawn_engine
+
+    # Register finalizer to ensure cleanup
+    ObjectSpace.define_finalizer(self, self.class.finalize(@pid))
+  end
+
+  # Finalizer for cleanup when object is garbage collected
+  def self.finalize(pid)
+    proc {
+      begin
+        Process.kill('TERM', pid) if pid
+        Timeout.timeout(2) { Process.wait(pid) }
+      rescue Errno::ESRCH, Errno::ECHILD, Timeout::Error
+        # Process already dead or timeout - that's okay
+      end
+    }
   end
 
   # Get Stockfish's move for a given position
@@ -66,11 +81,22 @@ class StockfishService
       @stdin.close unless @stdin.closed?
       @stdout.close unless @stdout.closed?
       @stderr.close unless @stderr.closed?
-      Process.wait(@pid) if @pid
-    rescue
-      # Ignore errors on close
+
+      # Wait for process with timeout
+      if @pid
+        Timeout.timeout(2) { Process.wait(@pid) }
+      end
+    rescue Timeout::Error
+      # Force kill if graceful shutdown times out
+      Process.kill('TERM', @pid) if @pid
+    rescue Errno::ESRCH, Errno::ECHILD
+      # Process already dead - that's fine
+    rescue => e
+      # Log but don't raise - we're cleaning up
+      Rails.logger.warn("Error closing Stockfish: #{e.message}")
     ensure
       @engine = nil
+      @pid = nil
     end
   end
 
