@@ -25,18 +25,20 @@ class AgentMoveService
   #   move: "e4",
   #   prompt: "...",
   #   response: "...",
-  #   tokens: 150,
-  #   time_ms: 500
+  #   tokens: 150,          # Total tokens across all retry attempts
+  #   time_ms: 500,         # Total time from first to last attempt
+  #   retry_count: 0        # Number of retries (0 if succeeded on first try)
   # }
   def generate_move
     retries = 0
     all_prompts = []
     all_responses = []
+    total_tokens = 0
+    start_time = Time.now
 
     loop do
       prompt = build_prompt(retry_attempt: retries)
       all_prompts << prompt
-      start_time = Time.now
 
       begin
         # Call LLM
@@ -44,19 +46,23 @@ class AgentMoveService
         llm_response = anthropic.complete(prompt: prompt)
         all_responses << llm_response[:content]
 
-        time_ms = ((Time.now - start_time) * 1000).to_i
+        # Accumulate tokens across all attempts
+        total_tokens += llm_response[:usage][:total_tokens]
 
         # Parse move from response
         move = parse_move_from_response(llm_response[:content])
 
         # Check if move is valid
         if move && @validator.valid_move?(move)
+          time_ms = ((Time.now - start_time) * 1000).to_i
+
           return {
             move: move,
             prompt: all_prompts.join("\n---RETRY---\n"),
             response: all_responses.join("\n---RETRY---\n"),
-            tokens: llm_response[:usage][:total_tokens],
-            time_ms: time_ms
+            tokens: total_tokens,
+            time_ms: time_ms,
+            retry_count: retries
           }
         end
 
