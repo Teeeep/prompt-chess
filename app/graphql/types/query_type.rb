@@ -76,7 +76,7 @@ module Types
     end
 
     def matches(agent_id: nil, status: nil)
-      scope = Match.includes(:agent).order(created_at: :desc)
+      scope = Match.includes(:agent, :moves).order(created_at: :desc)
       scope = scope.where(agent_id: agent_id) if agent_id
       scope = scope.where(status: status) if status
       scope
