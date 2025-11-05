@@ -27,9 +27,11 @@ class LlmConfigService
   # @param session [ActionDispatch::Request::Session] Rails session object
   # @return [String, nil] Masked key (e.g., "...Ab3d") or nil if not configured
   def self.masked_key(session)
-    return nil unless current(session)
+    config = current(session)
+    return nil unless config
 
-    key = current(session)[:api_key]
+    # Handle both symbol and string keys (session serialization converts symbols to strings)
+    key = config[:api_key] || config["api_key"]
     "...#{key[-4..]}"
   end
 
