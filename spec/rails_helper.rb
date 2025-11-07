@@ -37,6 +37,9 @@ RSpec.configure do |config|
   # Include time helpers (freeze_time, travel_to, etc.)
   config.include ActiveSupport::Testing::TimeHelpers
 
+  # Include ActiveJob test helpers
+  config.include ActiveJob::TestHelper
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
@@ -46,6 +49,11 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+
+  # Configure ActiveJob queue adapter for testing
+  config.before(:each) do
+    ActiveJob::Base.queue_adapter = :test
+  end
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
