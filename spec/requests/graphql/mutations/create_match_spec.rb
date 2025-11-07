@@ -7,7 +7,7 @@ RSpec.describe 'Mutations::CreateMatch', type: :request do
   let(:mutation) do
     <<~GQL
       mutation($agentId: ID!, $stockfishLevel: Int!) {
-        createMatch(agentId: $agentId, stockfishLevel: $stockfishLevel) {
+        createMatch(input: {agentId: $agentId, stockfishLevel: $stockfishLevel}) {
           match {
             id
             agent { id }
