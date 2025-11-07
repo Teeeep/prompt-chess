@@ -81,6 +81,10 @@ class MatchRunner
 
     # Update match totals
     @match.increment!(:total_tokens_used, result[:tokens])
+
+    # Broadcast update
+    move = @match.moves.order(:move_number).last
+    broadcast_update(move)
   end
 
   def play_stockfish_move(board_before, move_number)
@@ -98,6 +102,10 @@ class MatchRunner
       board_state_after: board_after,
       response_time_ms: result[:time_ms]
     )
+
+    # Broadcast update
+    move = @match.moves.order(:move_number).last
+    broadcast_update(move)
   end
 
   def game_over?
@@ -133,5 +141,16 @@ class MatchRunner
     else
       :draw
     end
+  end
+
+  def broadcast_update(latest_move)
+    PromptChessSchema.subscriptions.trigger(
+      :match_updated,
+      { match_id: @match.id.to_s },
+      {
+        match: @match.reload,
+        latest_move: latest_move
+      }
+    )
   end
 end
