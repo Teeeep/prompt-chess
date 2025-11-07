@@ -36,8 +36,8 @@ module Mutations
         status: :pending
       )
 
-      # Enqueue background job with session context
-      MatchExecutionJob.perform_later(match.id, context[:session])
+      # Enqueue background job with only llm_config from session
+      MatchExecutionJob.perform_later(match.id, context[:session][:llm_config])
 
       { match: match, errors: [] }
     end

@@ -31,6 +31,11 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 RSpec.configure do |config|
+  # Allow all hosts in test environment to prevent blocked host errors
+  config.before(:suite) do
+    Rails.application.config.hosts.clear
+  end
+
   # Include FactoryBot syntax methods
   config.include FactoryBot::Syntax::Methods
 

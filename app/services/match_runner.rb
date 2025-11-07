@@ -66,7 +66,7 @@ class MatchRunner
     # Apply move to validator
     board_after = @validator.apply_move(result[:move])
 
-    # Create move record
+    # Create move record (counter_cache handles total_moves automatically)
     @match.moves.create!(
       move_number: move_number,
       player: :agent,
@@ -81,7 +81,6 @@ class MatchRunner
 
     # Update match totals
     @match.increment!(:total_tokens_used, result[:tokens])
-    @match.increment!(:total_moves)
   end
 
   def play_stockfish_move(board_before, move_number)
@@ -90,7 +89,7 @@ class MatchRunner
     # Apply move to validator
     board_after = @validator.apply_move(result[:move])
 
-    # Create move record
+    # Create move record (counter_cache handles total_moves automatically)
     @match.moves.create!(
       move_number: move_number,
       player: :stockfish,
@@ -99,8 +98,6 @@ class MatchRunner
       board_state_after: board_after,
       response_time_ms: result[:time_ms]
     )
-
-    @match.increment!(:total_moves)
   end
 
   def game_over?
