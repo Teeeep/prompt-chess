@@ -19,7 +19,7 @@ RSpec.describe "Matches", type: :request do
       expect(response).to have_http_status(:success)
       # Verify match data is present
       expect(response.body).to include("Match ##{match.id}")
-      expect(response.body).to include(match.status)
+      expect(response.body).to include(match.status.titleize)
     end
   end
 
