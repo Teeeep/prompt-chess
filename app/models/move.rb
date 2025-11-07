@@ -1,7 +1,7 @@
 class Move < ApplicationRecord
   belongs_to :match
 
-  enum :player, { agent: 0, stockfish: 1 }, prefix: true
+  enum :player, { agent: 0, stockfish: 1 }, prefix: true, scopes: true
 
   validates :move_number, presence: true,
                           numericality: { greater_than: 0 },
