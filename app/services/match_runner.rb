@@ -112,7 +112,7 @@ class MatchRunner
     winner = determine_winner(result)
 
     # Calculate average move time
-    agent_moves = @match.moves.agent
+    agent_moves = @match.moves.where(player: :agent)
     avg_time = agent_moves.any? ? agent_moves.average(:response_time_ms).to_i : nil
 
     @match.update!(
