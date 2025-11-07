@@ -5,6 +5,12 @@ RSpec.describe 'GraphQL API', type: :request do
     it 'returns successful response for test field query' do
       post '/graphql', params: { query: '{ testField }' }
 
+      if response.status != 200
+        puts "Rails.env: #{Rails.env}"
+        puts "config.hosts: #{Rails.application.config.hosts.inspect}"
+        puts "Status: #{response.status}"
+      end
+
       expect(response).to have_http_status(:success)
 
       json = JSON.parse(response.body)

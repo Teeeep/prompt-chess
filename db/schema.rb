@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_05_183829) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_07_211312) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -41,6 +41,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_05_183829) do
     t.text "error_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "moves_count", default: 0, null: false
     t.index ["agent_id"], name: "index_matches_on_agent_id"
     t.index ["created_at"], name: "index_matches_on_created_at"
     t.index ["status"], name: "index_matches_on_status"

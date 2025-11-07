@@ -8,5 +8,6 @@ module Types
     field :configure_anthropic_api, mutation: Mutations::ConfigureAnthropicApi
     field :test_api_connection, mutation: Mutations::TestApiConnection
     field :clear_api_config, mutation: Mutations::ClearApiConfig
+    field :create_match, mutation: Mutations::CreateMatch
   end
 end

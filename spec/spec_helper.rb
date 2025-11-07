@@ -1,3 +1,6 @@
+# Set test environment BEFORE SimpleCov loads Rails
+ENV['RAILS_ENV'] = 'test'
+
 require 'simplecov'
 SimpleCov.start 'rails' do
   minimum_coverage 58
