@@ -11,4 +11,15 @@ class Move < ApplicationRecord
   validates :board_state_after, presence: true
   validates :response_time_ms, presence: true,
                                 numericality: { greater_than_or_equal_to: 0 }
+
+  after_create_commit :broadcast_move
+
+  private
+
+  def broadcast_move
+    MatchChannel.broadcast_to(match, {
+      type: "move_added",
+      move: MoveSerializer.new(self).as_json
+    })
+  end
 end
