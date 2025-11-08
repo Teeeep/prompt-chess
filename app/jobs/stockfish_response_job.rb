@@ -21,7 +21,7 @@ class StockfishResponseJob < ApplicationJob
     validator = MoveValidator.new(fen: current_fen)
     new_fen = validator.apply_move(stockfish_move)
 
-    # Save move
+    # Save move (will automatically broadcast via after_create_commit callback)
     move = match.moves.create!(
       player: :stockfish,
       move_number: match.moves.maximum(:move_number).to_i + 1,
@@ -37,12 +37,6 @@ class StockfishResponseJob < ApplicationJob
       winner = determine_winner(result, move.player)
       match.update!(status: :completed, winner: winner)
     end
-
-    # Broadcast move
-    MatchChannel.broadcast_to(match, {
-      type: "move_added",
-      move: MoveSerializer.new(move).as_json
-    })
   end
 
   private
