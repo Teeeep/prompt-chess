@@ -1,5 +1,5 @@
-require 'open3'
-require 'timeout'
+require "open3"
+require "timeout"
 
 class StockfishService
   class StockfishError < StandardError; end
@@ -34,7 +34,7 @@ class StockfishService
   def self.finalize(pid)
     proc {
       begin
-        Process.kill('TERM', pid) if pid
+        Process.kill("TERM", pid) if pid
         # Don't use Timeout in finalizer - it causes ThreadError in trap context
         Process.wait(pid, Process::WNOHANG) if pid
       rescue Errno::ESRCH, Errno::ECHILD
@@ -92,7 +92,7 @@ class StockfishService
       end
     rescue Timeout::Error
       # Force kill if graceful shutdown times out
-      Process.kill('TERM', @pid) if @pid
+      Process.kill("TERM", @pid) if @pid
     rescue Errno::ESRCH, Errno::ECHILD
       # Process already dead - that's fine
     rescue => e

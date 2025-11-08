@@ -23,7 +23,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
     it 'returns current configuration' do
       # Configure session
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",
@@ -46,7 +46,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
     it 'masks API key showing only last 4 characters' do
       # Configure session
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",
@@ -68,7 +68,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
     it 'includes configured_at timestamp' do
       # Configure session
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",
@@ -91,7 +91,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
     it 'includes all required fields' do
       # Configure session
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",
@@ -124,7 +124,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
     it 'returns null' do
       # Configure then clear
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",

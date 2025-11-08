@@ -36,7 +36,7 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
     it 'returns success true' do
       # Configure session with valid API key
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "#{test_api_key}",
@@ -58,7 +58,7 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
     it 'returns success message' do
       # Configure session with valid API key
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "#{test_api_key}",
@@ -80,7 +80,7 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
     it 'returns empty errors array' do
       # Configure session with valid API key
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "#{test_api_key}",
@@ -104,7 +104,7 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
     it 'returns success false' do
       # Configure session with invalid API key
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-invalid-key",
@@ -126,7 +126,7 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
     it 'returns authentication error message' do
       # Configure session with invalid API key
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-invalid-key",
@@ -148,7 +148,7 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
     it 'includes error in errors array' do
       # Configure session with invalid API key
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-invalid-key",

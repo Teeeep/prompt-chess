@@ -10,7 +10,7 @@ RSpec.describe OpenaiClient do
       before do
         allow_any_instance_of(OpenAI::Client).to receive(:chat).and_return({
           'id' => 'chatcmpl-123',
-          'choices' => [{ 'message' => { 'content' => 'Hi!' } }],
+          'choices' => [ { 'message' => { 'content' => 'Hi!' } } ],
           'usage' => { 'prompt_tokens' => 10, 'completion_tokens' => 5, 'total_tokens' => 15 }
         })
       end
@@ -59,7 +59,7 @@ RSpec.describe OpenaiClient do
       before do
         allow_any_instance_of(OpenAI::Client).to receive(:chat).and_return({
           'id' => 'chatcmpl-123',
-          'choices' => [{ 'message' => { 'content' => 'Hello!' } }],
+          'choices' => [ { 'message' => { 'content' => 'Hello!' } } ],
           'usage' => { 'prompt_tokens' => 12, 'completion_tokens' => 3, 'total_tokens' => 15 }
         })
       end

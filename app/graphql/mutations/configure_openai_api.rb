@@ -9,22 +9,22 @@ module Mutations
 
     field :config, Types::LlmConfigType, null: true,
       description: "The configured LLM settings (null if errors occurred)"
-    field :errors, [String], null: false,
+    field :errors, [ String ], null: false,
       description: "Validation errors (empty array if successful)"
 
     ALLOWED_MODELS = [
-      'gpt-4',
-      'gpt-4-turbo',
-      'gpt-4-turbo-preview',
-      'gpt-3.5-turbo',
-      'gpt-3.5-turbo-16k'
+      "gpt-4",
+      "gpt-4-turbo",
+      "gpt-4-turbo-preview",
+      "gpt-3.5-turbo",
+      "gpt-3.5-turbo-16k"
     ].freeze
 
     def resolve(api_key:, model:)
       errors = []
 
       # Validate API key format
-      unless api_key.start_with?('sk-')
+      unless api_key.start_with?("sk-")
         errors << "API key must start with 'sk-'"
       end
 
@@ -38,7 +38,7 @@ module Mutations
       # Store in session
       LlmConfigService.store(
         context[:session],
-        provider: 'openai',
+        provider: "openai",
         api_key: api_key,
         model: model
       )

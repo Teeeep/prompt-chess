@@ -15,7 +15,7 @@ class CreateMoves < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :moves, [:match_id, :move_number], unique: true
-    add_index :moves, [:match_id, :player]
+    add_index :moves, [ :match_id, :move_number ], unique: true
+    add_index :moves, [ :match_id, :player ]
   end
 end

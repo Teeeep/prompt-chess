@@ -9,13 +9,13 @@ module Mutations
     argument :configuration, GraphQL::Types::JSON, required: false
 
     field :agent, Types::AgentType, null: true
-    field :errors, [String], null: false
+    field :errors, [ String ], null: false
 
     def resolve(id:, **attributes)
       agent = Agent.find_by(id: id)
 
       if agent.nil?
-        return { agent: nil, errors: ["Agent not found"] }
+        return { agent: nil, errors: [ "Agent not found" ] }
       end
 
       # Only pass the attributes that were provided

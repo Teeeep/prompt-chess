@@ -5,13 +5,13 @@ module Mutations
     argument :id, ID, required: true
 
     field :success, Boolean, null: false
-    field :errors, [String], null: false
+    field :errors, [ String ], null: false
 
     def resolve(id:)
       agent = Agent.find_by(id: id)
 
       if agent.nil?
-        return { success: false, errors: ["Agent not found"] }
+        return { success: false, errors: [ "Agent not found" ] }
       end
 
       if agent.destroy

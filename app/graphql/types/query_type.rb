@@ -28,7 +28,7 @@ module Types
       "Hello from GraphQL!"
     end
 
-    field :agents, [Types::AgentType], null: false,
+    field :agents, [ Types::AgentType ], null: false,
       description: "Returns all agents"
 
     def agents
@@ -69,7 +69,7 @@ module Types
       Match.find_by(id: id)
     end
 
-    field :matches, [Types::MatchType], null: false,
+    field :matches, [ Types::MatchType ], null: false,
       description: "List matches with optional filters" do
       argument :agent_id, ID, required: false
       argument :status, Types::MatchStatusEnum, required: false

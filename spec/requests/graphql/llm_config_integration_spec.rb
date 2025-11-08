@@ -15,7 +15,7 @@ RSpec.describe 'LLM Configuration Integration', type: :request do
 
       # Step 2: Configure API
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "#{valid_api_key}",
@@ -92,7 +92,7 @@ RSpec.describe 'LLM Configuration Integration', type: :request do
     it 'validates before storing, fails test with invalid key' do
       # Step 1: Try invalid API key format
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "invalid-key",
@@ -110,7 +110,7 @@ RSpec.describe 'LLM Configuration Integration', type: :request do
 
       # Step 2: Try invalid model
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "#{valid_api_key}",
@@ -128,7 +128,7 @@ RSpec.describe 'LLM Configuration Integration', type: :request do
 
       # Step 3: Configure with valid format but invalid key
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-invalid-key",

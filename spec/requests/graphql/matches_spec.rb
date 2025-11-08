@@ -102,7 +102,7 @@ RSpec.describe 'Matches GraphQL API', type: :request do
 
       matches = result.dig('data', 'matches')
       expect(matches.length).to eq(2)
-      expect(matches.map { |m| m['agent']['id'] }.uniq).to eq([agent.id.to_s])
+      expect(matches.map { |m| m['agent']['id'] }.uniq).to eq([ agent.id.to_s ])
     end
 
     it 'filters by status' do

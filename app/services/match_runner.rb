@@ -137,11 +137,11 @@ class MatchRunner
 
   def determine_winner(result)
     case result
-    when 'checkmate'
+    when "checkmate"
       # Last move wins - check who moved last
       last_move = @match.moves.order(:move_number).last
-      last_move.player == 'agent' ? :agent : :stockfish
-    when 'stalemate'
+      last_move.player == "agent" ? :agent : :stockfish
+    when "stalemate"
       :draw
     else
       :draw

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   end
   post "/graphql", to: "graphql#execute"
 
-  resources :matches, only: [:show]
+  resources :matches, only: [ :show ]
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

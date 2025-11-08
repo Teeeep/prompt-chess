@@ -2,7 +2,7 @@ class MoveValidator
   class IllegalMoveError < StandardError; end
 
   # Starting position FEN
-  STARTING_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+  STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
   attr_reader :current_fen
 
@@ -62,8 +62,8 @@ class MoveValidator
   # Get game result
   # Returns: 'checkmate', 'stalemate', or nil
   def result
-    return 'checkmate' if checkmate?
-    return 'stalemate' if stalemate?
+    return "checkmate" if checkmate?
+    return "stalemate" if stalemate?
     nil
   end
 end

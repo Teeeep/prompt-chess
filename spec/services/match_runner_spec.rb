@@ -37,7 +37,7 @@ RSpec.describe MatchRunner do
       # Mock AgentMoveService to return sequential valid moves
       # Use a counter to track which move to return
       call_count = 0
-      valid_moves = ['e4', 'Nf3', 'Bc4', 'Qf3']
+      valid_moves = [ 'e4', 'Nf3', 'Bc4', 'Qf3' ]
 
       allow_any_instance_of(AgentMoveService).to receive(:generate_move) do
         move = valid_moves[call_count % valid_moves.length]

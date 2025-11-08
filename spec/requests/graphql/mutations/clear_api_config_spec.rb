@@ -20,7 +20,7 @@ RSpec.describe 'Mutations::ClearApiConfig', type: :request do
     before do
       # Configure session first
       post '/graphql', params: {
-        query: <<~GQL,
+        query: <<~GQL
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",

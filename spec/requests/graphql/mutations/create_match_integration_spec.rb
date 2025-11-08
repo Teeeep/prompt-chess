@@ -74,7 +74,7 @@ RSpec.describe 'CreateMatch Integration', type: :request do
 
       # Mock agent moves to return valid chess moves in sequence
       call_count = 0
-      valid_moves = ['e4', 'Nf3']
+      valid_moves = [ 'e4', 'Nf3' ]
 
       allow_any_instance_of(AgentMoveService).to receive(:generate_move) do
         move = valid_moves[call_count % valid_moves.length]
@@ -183,7 +183,7 @@ RSpec.describe 'CreateMatch Integration', type: :request do
 
       # Mock agent moves to return valid chess moves
       call_count = 0
-      valid_moves = ['e4', 'Nf3']
+      valid_moves = [ 'e4', 'Nf3' ]
 
       allow_any_instance_of(AgentMoveService).to receive(:generate_move) do
         move = valid_moves[call_count % valid_moves.length]

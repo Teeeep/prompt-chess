@@ -67,7 +67,7 @@ RSpec.describe Move, type: :model do
     let!(:move2) { create(:move, match: match, move_number: 2) }
 
     it 'orders moves by move_number through association' do
-      expect(match.moves.pluck(:move_number)).to eq([1, 2, 3])
+      expect(match.moves.pluck(:move_number)).to eq([ 1, 2, 3 ])
     end
   end
 

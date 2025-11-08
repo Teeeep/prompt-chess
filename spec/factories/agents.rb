@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :agent do
     name { "Chess Master #{rand(1000)}" }
-    role { ['opening', 'tactical', 'positional', 'endgame'].sample }
+    role { [ 'opening', 'tactical', 'positional', 'endgame' ].sample }
     prompt_text { "You are a chess master specializing in #{role} play. You analyze positions deeply and suggest the best moves based on chess principles and tactics." }
     configuration { { temperature: 0.7, max_tokens: 500, top_p: 1.0 } }
 

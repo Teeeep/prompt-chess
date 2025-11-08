@@ -8,7 +8,7 @@ module Mutations
       description: "Stockfish difficulty level (1-8)"
 
     field :match, Types::MatchType, null: true
-    field :errors, [String], null: false
+    field :errors, [ String ], null: false
 
     def resolve(agent_id:, stockfish_level:)
       agent = Agent.find_by(id: agent_id)
