@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"model":"claude-3-5-haiku-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
-        are a chess-playing AI agent named \"Chess Master 940\".\n\nYour personality
+        are a chess-playing AI agent named \"Chess Master 761\".\n\nYour personality
         and strategy: You are a chess master specializing in tactical play. You analyze
         positions deeply and suggest the best moves based on chess principles and
         tactics.\n\nCurrent Position (FEN): rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
@@ -35,7 +35,7 @@ http_interactions:
       message: Unauthorized
     headers:
       Date:
-      - Sat, 08 Nov 2025 10:56:16 GMT
+      - Sat, 08 Nov 2025 11:45:15 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -43,15 +43,15 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 99b48af92d2ea6a3-AMS
+      - 99b4d2b848bfef02-AMS
       X-Should-Retry:
       - 'false'
       Request-Id:
-      - req_011CUvJRLcm4UmgXqmczvCrF
+      - req_011CUvN9y32gUefAtKxBircV
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       X-Envoy-Upstream-Service-Time:
-      - '13'
+      - '7'
       Cf-Cache-Status:
       - DYNAMIC
       X-Robots-Tag:
@@ -61,6 +61,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
-        x-api-key"},"request_id":"req_011CUvJRLcm4UmgXqmczvCrF"}'
-  recorded_at: Sat, 08 Nov 2025 10:56:16 GMT
+        x-api-key"},"request_id":"req_011CUvN9y32gUefAtKxBircV"}'
+  recorded_at: Sat, 08 Nov 2025 11:45:15 GMT
 recorded_with: VCR 6.3.1
