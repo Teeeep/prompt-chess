@@ -10,6 +10,5 @@ module Types
     field :test_api_connection, mutation: Mutations::TestApiConnection
     field :clear_api_config, mutation: Mutations::ClearApiConfig
     field :create_match, mutation: Mutations::CreateMatch
-    field :submit_move, mutation: Mutations::SubmitMove
   end
 end
