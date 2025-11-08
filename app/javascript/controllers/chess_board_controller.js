@@ -5,9 +5,10 @@ export default class extends Controller {
 
   connect() {
     console.log("Chess board controller connected")
-    this.board = Chessboard('board', {
+    this.board = Chessboard(this.element, {
       position: this.positionValue,
-      draggable: false
+      draggable: false,
+      pieceTheme: '/img/chesspieces/wikipedia/{piece}.png'
     })
   }
 

@@ -4,8 +4,8 @@ import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
 
 // Explicitly register custom controllers
-import ChessBoardController from "./chess_board_controller"
+import ChessBoardController from "controllers/chess_board_controller"
 application.register("chess-board", ChessBoardController)
 
-import MatchSubscriptionController from "./match_subscription_controller"
+import MatchSubscriptionController from "controllers/match_subscription_controller"
 application.register("match-subscription", MatchSubscriptionController)
