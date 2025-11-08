@@ -57,6 +57,12 @@ module Mutations
         response_time_ms: 0
       )
 
+      # Broadcast the human move
+      MatchChannel.broadcast_to(match, {
+        type: "move_added",
+        move: MoveSerializer.new(move).as_json
+      })
+
       # Enqueue Stockfish response
       StockfishResponseJob.perform_later(match.id)
 
