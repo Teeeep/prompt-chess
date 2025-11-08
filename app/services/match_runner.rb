@@ -40,16 +40,19 @@ class MatchRunner
 
   def play_turn(player:)
     board_before = @validator.current_fen
-    move_number = (@match.moves.count / 2) + 1
+    # move_number is the ply count (1, 2, 3, 4...)
+    # chess_move_number is the traditional chess move number (1, 1, 2, 2, 3, 3...)
+    move_number = @match.moves.count + 1
+    chess_move_number = (move_number + 1) / 2
 
     if player == :agent
-      play_agent_move(board_before, move_number)
+      play_agent_move(board_before, move_number, chess_move_number)
     else
-      play_stockfish_move(board_before, move_number)
+      play_stockfish_move(board_before, move_number, chess_move_number)
     end
   end
 
-  def play_agent_move(board_before, move_number)
+  def play_agent_move(board_before, move_number, chess_move_number)
     # Build move history for context
     move_history = @match.moves.order(:move_number).to_a
 
@@ -69,6 +72,7 @@ class MatchRunner
     # Create move record (counter_cache handles total_moves automatically)
     @match.moves.create!(
       move_number: move_number,
+      chess_move_number: chess_move_number,
       player: :agent,
       move_notation: result[:move],
       board_state_before: board_before,
@@ -87,7 +91,7 @@ class MatchRunner
     broadcast_update(move)
   end
 
-  def play_stockfish_move(board_before, move_number)
+  def play_stockfish_move(board_before, move_number, chess_move_number)
     result = @stockfish.get_move(board_before)
 
     # Apply move to validator
@@ -96,6 +100,7 @@ class MatchRunner
     # Create move record (counter_cache handles total_moves automatically)
     @match.moves.create!(
       move_number: move_number,
+      chess_move_number: chess_move_number,
       player: :stockfish,
       move_notation: result[:move],
       board_state_before: board_before,
@@ -132,11 +137,11 @@ class MatchRunner
 
   def determine_winner(result)
     case result
-    when 'checkmate'
+    when "checkmate"
       # Last move wins - check who moved last
       last_move = @match.moves.order(:move_number).last
-      last_move.player == 'agent' ? :agent : :stockfish
-    when 'stalemate'
+      last_move.player == "agent" ? :agent : :stockfish
+    when "stalemate"
       :draw
     else
       :draw

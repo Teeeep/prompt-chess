@@ -39,6 +39,13 @@ RSpec.configure do |config|
   # Allow all hosts in test environment to prevent blocked host errors
   config.before(:suite) do
     Rails.application.config.hosts.clear
+
+    # Truncate all tables before running the test suite to ensure clean state
+    # This handles any leftover data from previous test runs
+    ActiveRecord::Base.connection.tables.each do |table|
+      next if table == 'schema_migrations' || table == 'ar_internal_metadata'
+      ActiveRecord::Base.connection.execute("TRUNCATE TABLE #{table} RESTART IDENTITY CASCADE")
+    end
   end
 
   # Include FactoryBot syntax methods
@@ -93,7 +100,17 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :system, js: true) do
-    driven_by :selenium_chrome_headless
+    # Configure Chrome for headless testing with proper options
+    driven_by :selenium_chrome_headless do |driver_option|
+      driver_option.add_argument('--disable-gpu')
+      driver_option.add_argument('--no-sandbox')
+      driver_option.add_argument('--disable-dev-shm-usage')
+      # Disable web security to allow CDN resources (only for tests!)
+      driver_option.add_argument('--disable-web-security')
+      driver_option.add_argument('--disable-site-isolation-trials')
+      # Allow running insecure content
+      driver_option.add_argument('--allow-running-insecure-content')
+    end
   end
 
   # Filter lines from Rails gems in backtraces.

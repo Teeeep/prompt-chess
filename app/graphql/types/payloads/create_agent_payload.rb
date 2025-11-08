@@ -5,7 +5,7 @@ module Types
 
       field :agent, Types::AgentType, null: true,
         description: "The created agent (null if errors occurred)"
-      field :errors, [String], null: false,
+      field :errors, [ String ], null: false,
         description: "Validation errors (empty array if successful)"
     end
   end

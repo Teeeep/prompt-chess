@@ -42,6 +42,9 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  # Allow all hosts in test environment
+  config.hosts.clear
+
   # Configure test adapter for background jobs
   config.active_job.queue_adapter = :test
 

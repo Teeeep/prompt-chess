@@ -27,7 +27,7 @@ module Types
 
     field :error_message, String, null: true
 
-    field :moves, [Types::MoveType], null: false
+    field :moves, [ Types::MoveType ], null: false
 
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false

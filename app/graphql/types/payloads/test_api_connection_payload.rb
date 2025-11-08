@@ -9,7 +9,7 @@ module Types
       field :message, String, null: false,
         description: "Human-readable result message"
 
-      field :errors, [String], null: false,
+      field :errors, [ String ], null: false,
         description: "Error messages (empty array if successful)"
     end
   end

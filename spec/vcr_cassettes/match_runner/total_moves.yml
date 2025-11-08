@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"model":"claude-3-5-haiku-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
-        are a chess-playing AI agent named \"Chess Master 289\".\n\nYour personality
+        are a chess-playing AI agent named \"Chess Master 779\".\n\nYour personality
         and strategy: You are a chess master specializing in tactical play. You analyze
         positions deeply and suggest the best moves based on chess principles and
         tactics.\n\nCurrent Position (FEN): rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
@@ -18,7 +18,7 @@ http_interactions:
         e4\"\n- \"Developing the knight is best. MOVE: Nf3\"\n\nNow choose your move:\n"}]}'
     headers:
       X-Api-Key:
-      - "<ANTHROPIC_API_KEY>"
+      - <ANTHROPIC_API_KEY>
       Anthropic-Version:
       - '2023-06-01'
       Content-Type:
@@ -31,36 +31,70 @@ http_interactions:
       - "*/*"
   response:
     status:
-      code: 401
-      message: Unauthorized
+      code: 200
+      message: OK
     headers:
       Date:
-      - Sat, 08 Nov 2025 10:56:17 GMT
+      - Sat, 08 Nov 2025 11:56:15 GMT
       Content-Type:
       - application/json
-      Content-Length:
-      - '130'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
-      Cf-Ray:
-      - 99b48afd385dfb8b-AMS
-      X-Should-Retry:
-      - 'false'
+      Anthropic-Ratelimit-Input-Tokens-Limit:
+      - '100000'
+      Anthropic-Ratelimit-Input-Tokens-Remaining:
+      - '100000'
+      Anthropic-Ratelimit-Input-Tokens-Reset:
+      - '2025-11-08T11:56:11Z'
+      Anthropic-Ratelimit-Output-Tokens-Limit:
+      - '20000'
+      Anthropic-Ratelimit-Output-Tokens-Remaining:
+      - '20000'
+      Anthropic-Ratelimit-Output-Tokens-Reset:
+      - '2025-11-08T11:56:15Z'
+      Anthropic-Ratelimit-Requests-Limit:
+      - '1000'
+      Anthropic-Ratelimit-Requests-Remaining:
+      - '999'
+      Anthropic-Ratelimit-Requests-Reset:
+      - '2025-11-08T11:56:11Z'
+      Retry-After:
+      - '52'
+      Anthropic-Ratelimit-Tokens-Limit:
+      - '120000'
+      Anthropic-Ratelimit-Tokens-Remaining:
+      - '120000'
+      Anthropic-Ratelimit-Tokens-Reset:
+      - '2025-11-08T11:56:11Z'
       Request-Id:
-      - req_011CUvJRPSfdkx8YsdyAM2Hu
+      - req_011CUvNzJ5qux4n4w1Wy1GSx
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
+      Anthropic-Organization-Id:
+      - 6c2f15c1-cf98-4c27-9e52-3e5902822ce7
       X-Envoy-Upstream-Service-Time:
-      - '30'
+      - '4015'
       Cf-Cache-Status:
       - DYNAMIC
       X-Robots-Tag:
       - none
       Server:
       - cloudflare
+      Cf-Ray:
+      - 99b4e2b9edb50a5f-AMS
     body:
-      encoding: UTF-8
-      string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
-        x-api-key"},"request_id":"req_011CUvJRPSfdkx8YsdyAM2Hu"}'
-  recorded_at: Sat, 08 Nov 2025 10:56:17 GMT
+      encoding: ASCII-8BIT
+      string: '{"model":"claude-3-5-haiku-20241022","id":"msg_01LizroqPXtpmkWCD2TqsJTt","type":"message","role":"assistant","content":[{"type":"text","text":"As
+        Chess Master 779, I carefully evaluate the opening position. In chess, controlling
+        the center is crucial, and developing knights to active squares is a key strategic
+        principle.\n\nAfter analysis, I choose to play:\n\nMOVE: e4\n\nRationale:\n-
+        Immediately stakes a claim in the central squares\n- Opens lines for the bishop
+        and queen\n- Creates flexible development options\n- A classic opening move
+        used by many grandmasters\n- Applies immediate pressure and creates dynamic
+        possibilities\n\nThe e4 square is a strong central square that provides excellent
+        control and potential for further strategic maneuvers. This move follows sound
+        chess principles of central control and rapid development."}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":274,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":142,"service_tier":"standard"}}'
+  recorded_at: Sat, 08 Nov 2025 11:56:15 GMT
 recorded_with: VCR 6.3.1

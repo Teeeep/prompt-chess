@@ -49,14 +49,14 @@ gem "graphql", "~> 2.1"
 gem "chess", "~> 0.3"
 
 # HTTP client for Anthropic API
-gem 'faraday', '~> 2.7'
-gem 'faraday-retry', '~> 2.2'
+gem "faraday", "~> 2.7"
+gem "faraday-retry", "~> 2.2"
 
 # OpenAI API client
-gem 'ruby-openai', '~> 7.0'
+gem "ruby-openai", "~> 7.0"
 
 # ViewComponents for modular UI
-gem 'view_component', '~> 4.0'
+gem "view_component", "~> 4.0"
 
 # Environment variables
 gem "dotenv-rails", groups: [ :development, :test ]
@@ -81,8 +81,8 @@ group :test do
   gem "vcr", "~> 6.2"
   gem "webmock", "~> 3.19"
   gem "simplecov", "~> 0.22", require: false
-  gem 'capybara'
-  gem 'selenium-webdriver'
+  gem "capybara"
+  gem "selenium-webdriver"
 end
 
 group :development do

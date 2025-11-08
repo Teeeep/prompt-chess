@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe MatchStatsComponent, type: :component do
   let(:agent) { create(:agent) }
-  let(:match) { create(:match, agent: agent, total_moves: 12, total_tokens_used: 3450, total_cost_cents: 5) }
+  let(:match) { create(:match, agent: agent, total_tokens_used: 3450, total_cost_cents: 5) }
 
   it "renders stats card" do
-    # Create 12 moves so total_moves (which uses moves_count) returns 12
+    # Create 12 moves - counter_cache will automatically set total_moves to 12
     12.times do |i|
       create(:move, match: match, move_number: i + 1, player: i.even? ? 'agent' : 'stockfish')
     end

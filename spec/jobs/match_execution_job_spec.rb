@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe MatchExecutionJob, type: :job do
   let(:agent) { create(:agent) }
   let(:match) { create(:match, agent: agent, stockfish_level: 1) }
-  let(:session) { { llm_config: { provider: 'anthropic', api_key: ENV['ANTHROPIC_API_KEY'] || 'test-key', model: 'claude-3-5-haiku-20241022' } } }
+  let(:llm_config) { { provider: 'anthropic', api_key: ENV['ANTHROPIC_API_KEY'] || 'test-key', model: 'claude-3-5-haiku-20241022' } }
 
   describe '#perform' do
     it 'executes the match runner', vcr: { cassette_name: 'match_execution_job/success' } do
       # Stub to play short game
       allow_any_instance_of(MatchRunner).to receive(:game_over?).and_return(false, false, true)
 
-      MatchExecutionJob.perform_now(match.id, session)
+      MatchExecutionJob.perform_now(match.id, llm_config)
 
       match.reload
       expect(match.status).to eq('completed')
@@ -24,7 +24,7 @@ RSpec.describe MatchExecutionJob, type: :job do
       )
 
       expect {
-        MatchExecutionJob.perform_now(match.id, session)
+        MatchExecutionJob.perform_now(match.id, llm_config)
       }.to raise_error(AgentMoveService::InvalidMoveError)
 
       match.reload
@@ -37,18 +37,18 @@ RSpec.describe MatchExecutionJob, type: :job do
 
       allow_any_instance_of(MatchRunner).to receive(:game_over?).and_return(true)
 
-      MatchExecutionJob.perform_now(match.id, session)
+      MatchExecutionJob.perform_now(match.id, llm_config)
     end
 
-    it 'passes session to MatchRunner' do
+    it 'passes llm_config to MatchRunner as session' do
       expect(MatchRunner).to receive(:new).with(
         match: match,
-        session: session
+        session: { llm_config: llm_config }
       ).and_call_original
 
       allow_any_instance_of(MatchRunner).to receive(:game_over?).and_return(true)
 
-      MatchExecutionJob.perform_now(match.id, session)
+      MatchExecutionJob.perform_now(match.id, llm_config)
     end
   end
 

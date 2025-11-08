@@ -4,7 +4,7 @@ RSpec.describe AgentMoveService do
   let(:agent) { create(:agent, prompt_text: 'You are a tactical chess master.') }
   let(:session) { { llm_config: { provider: 'anthropic', api_key: ENV['ANTHROPIC_API_KEY'] || 'test-key', model: 'claude-3-5-haiku-20241022' } } }
   let(:starting_fen) { 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' }
-  let(:validator) { instance_double('MoveValidator', current_fen: starting_fen, legal_moves: ['e4', 'd4', 'Nf3', 'c4'], valid_move?: true) }
+  let(:validator) { instance_double('MoveValidator', current_fen: starting_fen, legal_moves: [ 'e4', 'd4', 'Nf3', 'c4' ], valid_move?: true) }
 
   describe '#initialize' do
     it 'creates service with required parameters' do
@@ -84,13 +84,13 @@ RSpec.describe AgentMoveService do
       let(:service) do
         validator_with_history = instance_double('MoveValidator')
         allow(validator_with_history).to receive(:current_fen).and_return('rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2')
-        allow(validator_with_history).to receive(:legal_moves).and_return(['Nf3', 'Nc3', 'Bc4', 'd4'])
+        allow(validator_with_history).to receive(:legal_moves).and_return([ 'Nf3', 'Nc3', 'Bc4', 'd4' ])
         allow(validator_with_history).to receive(:valid_move?).and_return(true)
 
         AgentMoveService.new(
           agent: agent,
           validator: validator_with_history,
-          move_history: [move1, move2],
+          move_history: [ move1, move2 ],
           session: session
         )
       end
@@ -142,13 +142,13 @@ RSpec.describe AgentMoveService do
 
       validator_with_history = instance_double('MoveValidator')
       allow(validator_with_history).to receive(:current_fen).and_return('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1')
-      allow(validator_with_history).to receive(:legal_moves).and_return(['e5', 'd5', 'Nf6', 'c5'])
+      allow(validator_with_history).to receive(:legal_moves).and_return([ 'e5', 'd5', 'Nf6', 'c5' ])
       allow(validator_with_history).to receive(:valid_move?).and_return(true)
 
       service = AgentMoveService.new(
         agent: agent,
         validator: validator_with_history,
-        move_history: [move1],
+        move_history: [ move1 ],
         session: session
       )
 
@@ -164,13 +164,13 @@ RSpec.describe AgentMoveService do
 
       validator_with_history = instance_double('MoveValidator')
       allow(validator_with_history).to receive(:current_fen).and_return('rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2')
-      allow(validator_with_history).to receive(:legal_moves).and_return(['Nc6', 'd6', 'Nf6', 'Bc5'])
+      allow(validator_with_history).to receive(:legal_moves).and_return([ 'Nc6', 'd6', 'Nf6', 'Bc5' ])
       allow(validator_with_history).to receive(:valid_move?).and_return(true)
 
       service = AgentMoveService.new(
         agent: agent,
         validator: validator_with_history,
-        move_history: [move1, move2, move3],
+        move_history: [ move1, move2, move3 ],
         session: session
       )
 

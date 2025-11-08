@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe LlmConfigService do
   let(:session) { {} }
   let(:api_key) { 'sk-ant-api03-test1234567890abcdef' }
-  let(:model) { 'claude-3-5-sonnet-20241022' }
+  let(:model) { 'claude-3-5-haiku-20241022' }
 
   describe '.store' do
     it 'stores configuration in session' do

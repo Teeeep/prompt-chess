@@ -10,9 +10,4 @@ class Match < ApplicationRecord
   validates :total_moves, numericality: { greater_than_or_equal_to: 0 }
   validates :total_tokens_used, numericality: { greater_than_or_equal_to: 0 }
   validates :total_cost_cents, numericality: { greater_than_or_equal_to: 0 }
-
-  # Override total_moves to use counter cache
-  def total_moves
-    moves_count
-  end
 end

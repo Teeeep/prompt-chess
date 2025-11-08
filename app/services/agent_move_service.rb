@@ -135,7 +135,7 @@ class AgentMoveService
   def format_move_history
     return "Move History: (game start)" if @move_history.empty?
 
-    lines = ["Move History:"]
+    lines = [ "Move History:" ]
     @move_history.each_slice(2).with_index(1) do |pair, number|
       white_move = pair[0]
       black_move = pair[1]

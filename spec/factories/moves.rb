@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :move do
     match
     sequence(:move_number) { |n| n }
+    chess_move_number { (move_number + 1) / 2 }
     player { :agent }
     move_notation { 'e4' }
     board_state_before { 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' }

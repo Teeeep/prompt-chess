@@ -6,7 +6,7 @@ module Mutations
       description: "Whether the connection test succeeded"
     field :message, String, null: false,
       description: "Human-readable result message"
-    field :errors, [String], null: false,
+    field :errors, [ String ], null: false,
       description: "Error messages (empty array if successful)"
 
     def resolve
@@ -15,25 +15,25 @@ module Mutations
       unless config
         return {
           success: false,
-          message: 'No API configuration found',
-          errors: ['Please configure your API credentials first']
+          message: "No API configuration found",
+          errors: [ "Please configure your API credentials first" ]
         }
       end
 
       # Test connection based on provider
       # Handle both symbol and string keys (session serialization)
-      provider = config[:provider] || config['provider']
-      api_key = config[:api_key] || config['api_key']
-      model = config[:model] || config['model']
+      provider = config[:provider] || config["provider"]
+      api_key = config[:api_key] || config["api_key"]
+      model = config[:model] || config["model"]
 
       result = case provider
-      when 'anthropic'
+      when "anthropic"
         client = AnthropicClient.new(
           api_key: api_key,
           model: model
         )
         client.test_connection
-      when 'openai'
+      when "openai"
         client = OpenaiClient.new(
           api_key: api_key,
           model: model
@@ -46,7 +46,7 @@ module Mutations
       {
         success: result[:success],
         message: result[:message],
-        errors: result[:success] ? [] : [result[:message]]
+        errors: result[:success] ? [] : [ result[:message] ]
       }
     end
   end

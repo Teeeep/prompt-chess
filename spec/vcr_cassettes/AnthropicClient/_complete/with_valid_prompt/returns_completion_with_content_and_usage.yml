@@ -26,7 +26,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 08 Nov 2025 09:55:43 GMT
+      - Sat, 08 Nov 2025 11:55:51 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -38,35 +38,35 @@ http_interactions:
       Anthropic-Ratelimit-Input-Tokens-Remaining:
       - '100000'
       Anthropic-Ratelimit-Input-Tokens-Reset:
-      - '2025-11-08T09:55:42Z'
+      - '2025-11-08T11:55:51Z'
       Anthropic-Ratelimit-Output-Tokens-Limit:
       - '20000'
       Anthropic-Ratelimit-Output-Tokens-Remaining:
       - '20000'
       Anthropic-Ratelimit-Output-Tokens-Reset:
-      - '2025-11-08T09:55:43Z'
+      - '2025-11-08T11:55:51Z'
       Anthropic-Ratelimit-Requests-Limit:
       - '1000'
       Anthropic-Ratelimit-Requests-Remaining:
       - '999'
       Anthropic-Ratelimit-Requests-Reset:
-      - '2025-11-08T09:55:42Z'
+      - '2025-11-08T11:55:50Z'
       Retry-After:
-      - '18'
+      - '9'
       Anthropic-Ratelimit-Tokens-Limit:
       - '120000'
       Anthropic-Ratelimit-Tokens-Remaining:
       - '120000'
       Anthropic-Ratelimit-Tokens-Reset:
-      - '2025-11-08T09:55:42Z'
+      - '2025-11-08T11:55:51Z'
       Request-Id:
-      - req_011CUvDoS4TcyCs35YzJECMf
+      - req_011CUvNxnw8CyMFELSs87ERY
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       Anthropic-Organization-Id:
       - 6c2f15c1-cf98-4c27-9e52-3e5902822ce7
       X-Envoy-Upstream-Service-Time:
-      - '676'
+      - '343'
       Cf-Cache-Status:
       - DYNAMIC
       X-Robots-Tag:
@@ -74,9 +74,9 @@ http_interactions:
       Server:
       - cloudflare
       Cf-Ray:
-      - 99b4323e3cd3feb8-AMS
+      - 99b4e23a89050b30-AMS
     body:
       encoding: ASCII-8BIT
-      string: '{"model":"claude-3-5-haiku-20241022","id":"msg_017touDGqtmbT6tZhwzzdzAn","type":"message","role":"assistant","content":[{"type":"text","text":"hello"}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":14,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":4,"service_tier":"standard"}}'
-  recorded_at: Sat, 08 Nov 2025 09:55:43 GMT
+      string: '{"model":"claude-3-5-haiku-20241022","id":"msg_01MKB94hyoE28Jx4M683DUpV","type":"message","role":"assistant","content":[{"type":"text","text":"Hello"}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":14,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":4,"service_tier":"standard"}}'
+  recorded_at: Sat, 08 Nov 2025 11:55:51 GMT
 recorded_with: VCR 6.3.1

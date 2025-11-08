@@ -1,5 +1,5 @@
 class Move < ApplicationRecord
-  belongs_to :match, counter_cache: true
+  belongs_to :match, counter_cache: :total_moves
 
   enum :player, { agent: 0, stockfish: 1 }, prefix: true, scopes: true
 

@@ -8,7 +8,7 @@ module Mutations
     argument :configuration, GraphQL::Types::JSON, required: false
 
     field :agent, Types::AgentType, null: true
-    field :errors, [String], null: false
+    field :errors, [ String ], null: false
 
     def resolve(name:, prompt_text:, role: nil, configuration: nil)
       agent = Agent.new(

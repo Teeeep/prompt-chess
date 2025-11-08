@@ -1,4 +1,4 @@
-require 'openai'
+require "openai"
 
 class OpenaiClient
   # Initialize OpenAI API client
@@ -9,9 +9,9 @@ class OpenaiClient
   # @param model [String] OpenAI model identifier (e.g., 'gpt-4', 'gpt-3.5-turbo')
   def initialize(session: nil, api_key: nil, model: nil)
     if session
-      config = session[:llm_config] || session['llm_config']
-      @api_key = config[:api_key] || config['api_key']
-      @model = config[:model] || config['model']
+      config = session[:llm_config] || session["llm_config"]
+      @api_key = config[:api_key] || config["api_key"]
+      @model = config[:model] || config["model"]
     else
       @api_key = api_key
       @model = model
@@ -26,14 +26,14 @@ class OpenaiClient
       parameters: {
         model: @model,
         max_tokens: 10,
-        messages: [{ role: 'user', content: 'Hi' }]
+        messages: [ { role: "user", content: "Hi" } ]
       }
     )
 
-    if response && response['choices']
-      { success: true, message: 'Connected successfully to OpenAI API' }
+    if response && response["choices"]
+      { success: true, message: "Connected successfully to OpenAI API" }
     else
-      { success: false, message: 'Unexpected response from OpenAI API' }
+      { success: false, message: "Unexpected response from OpenAI API" }
     end
   rescue Faraday::UnauthorizedError, OpenAI::Error => e
     parse_error(e)
@@ -56,21 +56,21 @@ class OpenaiClient
         model: @model,
         max_tokens: max_tokens,
         temperature: temperature,
-        messages: [{ role: 'user', content: prompt }]
+        messages: [ { role: "user", content: prompt } ]
       }
     )
 
-    if response && response['choices'] && response['choices'][0]
+    if response && response["choices"] && response["choices"][0]
       {
-        content: response.dig('choices', 0, 'message', 'content') || '',
+        content: response.dig("choices", 0, "message", "content") || "",
         usage: {
-          input_tokens: response.dig('usage', 'prompt_tokens') || 0,
-          output_tokens: response.dig('usage', 'completion_tokens') || 0,
-          total_tokens: response.dig('usage', 'total_tokens') || 0
+          input_tokens: response.dig("usage", "prompt_tokens") || 0,
+          output_tokens: response.dig("usage", "completion_tokens") || 0,
+          total_tokens: response.dig("usage", "total_tokens") || 0
         }
       }
     else
-      raise Faraday::Error, 'Unexpected response structure from OpenAI API'
+      raise Faraday::Error, "Unexpected response structure from OpenAI API"
     end
   rescue Faraday::ConnectionFailed, Faraday::TimeoutError => e
     raise
@@ -108,14 +108,14 @@ class OpenaiClient
   def parse_openai_error(error)
     message = error.message
 
-    if message.include?('Incorrect API key') || message.include?('invalid_api_key') || message.include?('401')
-      { success: false, message: 'Invalid API key. Please check your OpenAI API key.' }
-    elsif message.include?('insufficient_quota')
-      { success: false, message: 'Insufficient quota. Please check your OpenAI account billing.' }
-    elsif message.include?('rate_limit')
-      { success: false, message: 'Rate limit exceeded. Please try again later.' }
-    elsif message.include?('model_not_found')
-      { success: false, message: 'Model not found. Please check your model name.' }
+    if message.include?("Incorrect API key") || message.include?("invalid_api_key") || message.include?("401")
+      { success: false, message: "Invalid API key. Please check your OpenAI API key." }
+    elsif message.include?("insufficient_quota")
+      { success: false, message: "Insufficient quota. Please check your OpenAI account billing." }
+    elsif message.include?("rate_limit")
+      { success: false, message: "Rate limit exceeded. Please try again later." }
+    elsif message.include?("model_not_found")
+      { success: false, message: "Model not found. Please check your model name." }
     else
       { success: false, message: "API error: #{message}" }
     end

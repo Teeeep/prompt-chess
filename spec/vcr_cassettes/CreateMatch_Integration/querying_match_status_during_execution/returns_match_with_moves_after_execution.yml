@@ -1,0 +1,66 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.anthropic.com/v1/messages
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-3-5-haiku-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
+        are a chess-playing AI agent named \"Chess Master 138\".\n\nYour personality
+        and strategy: You are a chess master specializing in endgame play. You analyze
+        positions deeply and suggest the best moves based on chess principles and
+        tactics.\n\nCurrent Position (FEN): rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
+        w KQkq - 0 1\n\nMove History: (game start)\n\nGame Context:\n- Your color:
+        White\n- Move number: 1\n- Legal moves: Na3, Nc3, Nf3, Nh3, a3, a4, b3, b4,
+        c3, c4, d3, d4, e3, e4, f3, f4, g3, g4, h3, h4\n\nAnalyze the position and
+        respond with your next move.\nFormat: MOVE: [your move in standard algebraic
+        notation]\n\nExample responses:\n- \"I''ll control the center with e4. MOVE:
+        e4\"\n- \"Developing the knight is best. MOVE: Nf3\"\n\nNow choose your move:\n"}]}'
+    headers:
+      X-Api-Key:
+      - "<ANTHROPIC_API_KEY>"
+      Anthropic-Version:
+      - '2023-06-01'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Sat, 08 Nov 2025 12:45:26 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '130'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 99b52ae2cbd761f9-AMS
+      X-Should-Retry:
+      - 'false'
+      Request-Id:
+      - req_011CUvSkAp7hELRoFxPGfmPT
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Envoy-Upstream-Service-Time:
+      - '16'
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Server:
+      - cloudflare
+    body:
+      encoding: UTF-8
+      string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
+        x-api-key"},"request_id":"req_011CUvSkAp7hELRoFxPGfmPT"}'
+  recorded_at: Sat, 08 Nov 2025 12:45:26 GMT
+recorded_with: VCR 6.3.1
