@@ -57,7 +57,7 @@ export default class extends Controller {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector("[name='csrf-token']").content
+        "X-CSRF-Token": document.querySelector("[name='csrf-token']")?.content || ""
       },
       body: JSON.stringify({
         query,
@@ -70,8 +70,11 @@ export default class extends Controller {
       })
     })
 
-    const { data } = await response.json()
-    return data.submitMove
+    const { data, errors } = await response.json()
+    if (errors) {
+      throw new Error(errors[0]?.message || "GraphQL error")
+    }
+    return data?.submitMove || { success: false, error: "Invalid response" }
   }
 
   showError(message) {
