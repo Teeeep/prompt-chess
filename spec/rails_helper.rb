@@ -100,7 +100,17 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :system, js: true) do
-    driven_by :selenium_chrome_headless
+    # Configure Chrome for headless testing with proper options
+    driven_by :selenium_chrome_headless do |driver_option|
+      driver_option.add_argument('--disable-gpu')
+      driver_option.add_argument('--no-sandbox')
+      driver_option.add_argument('--disable-dev-shm-usage')
+      # Disable web security to allow CDN resources (only for tests!)
+      driver_option.add_argument('--disable-web-security')
+      driver_option.add_argument('--disable-site-isolation-trials')
+      # Allow running insecure content
+      driver_option.add_argument('--allow-running-insecure-content')
+    end
   end
 
   # Filter lines from Rails gems in backtraces.

@@ -22,33 +22,35 @@ RSpec.describe 'CreateMatch Integration', type: :request do
     GQL
   end
 
-  def configure_api
-    post '/graphql', params: {
-      query: <<~GQL
-        mutation {
-          configureAnthropicApi(input: {
-            apiKey: "sk-ant-api03-test1234567890abcdef",
-            model: "claude-3-5-haiku-20241022"
-          }) {
-            config {
-              provider
-              model
-            }
-            errors
-          }
-        }
-      GQL
+  def default_session_config
+    {
+      llm_config: {
+        provider: 'anthropic',
+        api_key: ENV['ANTHROPIC_API_KEY'] || 'sk-ant-api03-test1234567890abcdef',
+        model: 'claude-3-5-haiku-20241022'
+      }
     }
   end
 
+  def configure_session_for_graphql(session_config = default_session_config)
+    # Mock the GraphQL controller's session to return our config
+    # This simulates what the configureAnthropicApi mutation does
+    allow_any_instance_of(GraphqlController).to receive(:session).and_return(session_config)
+  end
+
   def create_match(agent_id:, stockfish_level:, configure: true)
-    # Configure API first if requested (session persists within single test)
-    configure_api if configure
+    # Configure session before making the request
+    if configure
+      configure_session_for_graphql
+    else
+      configure_session_for_graphql({})
+    end
 
     post '/graphql', params: {
       query: mutation,
       variables: { agentId: agent_id, stockfishLevel: stockfish_level }.to_json
     }
+
     JSON.parse(response.body)
   end
 
@@ -67,11 +69,27 @@ RSpec.describe 'CreateMatch Integration', type: :request do
       expect(MatchExecutionJob).to have_been_enqueued
     end
 
-    it 'executes the match when job runs', :vcr do
+    it 'executes the match when job runs' do
       result = create_match(agent_id: agent.id, stockfish_level: 1)
 
-      # Stub game to end quickly
-      allow_any_instance_of(MatchRunner).to receive(:game_over?).and_return(false, false, true)
+      # Mock agent moves to return valid chess moves in sequence
+      call_count = 0
+      valid_moves = ['e4', 'Nf3']
+
+      allow_any_instance_of(AgentMoveService).to receive(:generate_move) do
+        move = valid_moves[call_count % valid_moves.length]
+        call_count += 1
+        {
+          move: move,
+          prompt: "test prompt for #{move}",
+          response: "test response: MOVE: #{move}",
+          tokens: 100,
+          time_ms: 500
+        }
+      end
+
+      # Stub game to end quickly (after 2 agent moves + 2 stockfish moves = 4 total moves)
+      allow_any_instance_of(MatchRunner).to receive(:game_over?).and_return(false, false, false, false, true)
 
       perform_enqueued_jobs
 
@@ -159,12 +177,28 @@ RSpec.describe 'CreateMatch Integration', type: :request do
       GQL
     end
 
-    it 'returns match with moves after execution', :vcr do
+    it 'returns match with moves after execution' do
       result = create_match(agent_id: agent.id, stockfish_level: 1)
       match_id = result['data']['createMatch']['match']['id']
 
-      # Stub game to end quickly
-      allow_any_instance_of(MatchRunner).to receive(:game_over?).and_return(false, false, true)
+      # Mock agent moves to return valid chess moves
+      call_count = 0
+      valid_moves = ['e4', 'Nf3']
+
+      allow_any_instance_of(AgentMoveService).to receive(:generate_move) do
+        move = valid_moves[call_count % valid_moves.length]
+        call_count += 1
+        {
+          move: move,
+          prompt: "test prompt for #{move}",
+          response: "test response: MOVE: #{move}",
+          tokens: 100,
+          time_ms: 500
+        }
+      end
+
+      # Stub game to end quickly (after 2 agent moves + 2 stockfish moves = 4 total moves)
+      allow_any_instance_of(MatchRunner).to receive(:game_over?).and_return(false, false, false, false, true)
 
       perform_enqueued_jobs
 

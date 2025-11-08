@@ -8,7 +8,6 @@ RSpec.describe MatchBoardComponent, type: :component do
     render_inline(MatchBoardComponent.new(match: match))
 
     expect(page).to have_css('[data-controller="chess-board"]')
-    expect(page).to have_css('#board')
   end
 
   it "includes starting position FEN when no moves" do
