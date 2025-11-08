@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"model":"claude-3-5-haiku-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
-        are a chess-playing AI agent named \"Chess Master 802\".\n\nYour personality
+        are a chess-playing AI agent named \"Chess Master 979\".\n\nYour personality
         and strategy: You are a tactical chess master.\n\nCurrent Position (FEN):
         rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\n\nMove History:
         (game start)\n\nGame Context:\n- Your color: White\n- Move number: 1\n- Legal
@@ -16,7 +16,7 @@ http_interactions:
         the knight is best. MOVE: Nf3\"\n\nNow choose your move:\n"}]}'
     headers:
       X-Api-Key:
-      - "<ANTHROPIC_API_KEY>"
+      - <ANTHROPIC_API_KEY>
       Anthropic-Version:
       - '2023-06-01'
       Content-Type:
@@ -29,36 +29,69 @@ http_interactions:
       - "*/*"
   response:
     status:
-      code: 401
-      message: Unauthorized
+      code: 200
+      message: OK
     headers:
       Date:
-      - Sat, 08 Nov 2025 11:53:18 GMT
+      - Sat, 08 Nov 2025 11:57:04 GMT
       Content-Type:
       - application/json
-      Content-Length:
-      - '130'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
-      Cf-Ray:
-      - 99b4de8059e70e3c-AMS
-      X-Should-Retry:
-      - 'false'
+      Anthropic-Ratelimit-Input-Tokens-Limit:
+      - '100000'
+      Anthropic-Ratelimit-Input-Tokens-Remaining:
+      - '100000'
+      Anthropic-Ratelimit-Input-Tokens-Reset:
+      - '2025-11-08T11:57:01Z'
+      Anthropic-Ratelimit-Output-Tokens-Limit:
+      - '20000'
+      Anthropic-Ratelimit-Output-Tokens-Remaining:
+      - '20000'
+      Anthropic-Ratelimit-Output-Tokens-Reset:
+      - '2025-11-08T11:57:04Z'
+      Anthropic-Ratelimit-Requests-Limit:
+      - '1000'
+      Anthropic-Ratelimit-Requests-Remaining:
+      - '999'
+      Anthropic-Ratelimit-Requests-Reset:
+      - '2025-11-08T11:57:01Z'
+      Retry-After:
+      - '59'
+      Anthropic-Ratelimit-Tokens-Limit:
+      - '120000'
+      Anthropic-Ratelimit-Tokens-Remaining:
+      - '120000'
+      Anthropic-Ratelimit-Tokens-Reset:
+      - '2025-11-08T11:57:01Z'
       Request-Id:
-      - req_011CUvNmYGGAEQhTu8xnRwg3
+      - req_011CUvP3y3yEHTJWUTaWWe2B
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
+      Anthropic-Organization-Id:
+      - 6c2f15c1-cf98-4c27-9e52-3e5902822ce7
       X-Envoy-Upstream-Service-Time:
-      - '11'
+      - '3563'
       Cf-Cache-Status:
       - DYNAMIC
       X-Robots-Tag:
       - none
       Server:
       - cloudflare
+      Cf-Ray:
+      - 99b4e3f12fdc7794-AMS
     body:
-      encoding: UTF-8
-      string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
-        x-api-key"},"request_id":"req_011CUvNmYGGAEQhTu8xnRwg3"}'
-  recorded_at: Sat, 08 Nov 2025 11:53:18 GMT
+      encoding: ASCII-8BIT
+      string: '{"model":"claude-3-5-haiku-20241022","id":"msg_01WezTwFusUa3s48rzWVsdtu","type":"message","role":"assistant","content":[{"type":"text","text":"As
+        Chess Master 979, I''ll choose a classic opening move that controls the central
+        squares and opens lines for piece development.\n\nMOVE: e4\n\nMy reasoning:\n-
+        e4 immediately stakes a claim in the center of the board\n- This move allows
+        quick development of the king''s bishop and queen\n- Creates options for both
+        kingside and queenside strategies\n- A solid, aggressive first move that puts
+        pressure on Black''s position\n- Follows the classic chess principle of fighting
+        for central control\n\nI''m ready for Black''s response and will continue
+        to play a tactical, strategic game."}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":203,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":126,"service_tier":"standard"}}'
+  recorded_at: Sat, 08 Nov 2025 11:57:04 GMT
 recorded_with: VCR 6.3.1
