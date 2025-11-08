@@ -52,6 +52,9 @@ gem "chess", "~> 0.3"
 gem 'faraday', '~> 2.7'
 gem 'faraday-retry', '~> 2.2'
 
+# OpenAI API client
+gem 'ruby-openai', '~> 7.0'
+
 # ViewComponents for modular UI
 gem 'view_component', '~> 4.0'
 

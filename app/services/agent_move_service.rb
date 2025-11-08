@@ -42,8 +42,8 @@ class AgentMoveService
 
       begin
         # Call LLM
-        anthropic = AnthropicClient.new(session: @session)
-        llm_response = anthropic.complete(prompt: prompt)
+        openai = OpenaiClient.new(session: @session)
+        llm_response = openai.complete(prompt: prompt)
         all_responses << llm_response[:content]
 
         # Accumulate tokens across all attempts

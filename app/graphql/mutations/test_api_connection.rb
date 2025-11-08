@@ -33,6 +33,12 @@ module Mutations
           model: model
         )
         client.test_connection
+      when 'openai'
+        client = OpenaiClient.new(
+          api_key: api_key,
+          model: model
+        )
+        client.test_connection
       else
         { success: false, message: "Unknown provider: #{provider}" }
       end
