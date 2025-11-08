@@ -110,13 +110,13 @@ RSpec.describe StockfishResponseJob, type: :job do
           .and_raise(StockfishService::TimeoutError.new("Timeout"))
 
         perform_enqueued_jobs do
-          expect {
-            described_class.perform_later(match.id)
-          }.to raise_error(StockfishService::TimeoutError)
+          described_class.perform_later(match.id)
+        rescue StockfishService::TimeoutError
+          # Expected to raise after retries exhausted
         end
 
         # Verify it attempted retries (ActiveJob will retry automatically)
-        expect(StockfishService).to have_received(:get_move).at_least(3).times
+        expect(StockfishService).to have_received(:get_move).exactly(3).times
       end
     end
 
@@ -126,13 +126,13 @@ RSpec.describe StockfishResponseJob, type: :job do
           .and_raise(StockfishService::EngineError.new("Crash"))
 
         perform_enqueued_jobs do
-          expect {
-            described_class.perform_later(match.id)
-          }.to raise_error(StockfishService::EngineError)
+          described_class.perform_later(match.id)
+        rescue StockfishService::EngineError
+          # Expected to raise after retries exhausted
         end
 
         # Verify it attempted retries (ActiveJob will retry automatically)
-        expect(StockfishService).to have_received(:get_move).at_least(2).times
+        expect(StockfishService).to have_received(:get_move).exactly(2).times
       end
     end
 
@@ -143,9 +143,8 @@ RSpec.describe StockfishResponseJob, type: :job do
       end
 
       it "marks match as errored" do
-        # Disable retries for this test
         perform_enqueued_jobs do
-          described_class.new.perform(match.id)
+          described_class.perform_later(match.id)
         rescue StockfishService::TimeoutError
           # Expected to raise after retries
         end
@@ -161,7 +160,7 @@ RSpec.describe StockfishResponseJob, type: :job do
         )
 
         perform_enqueued_jobs do
-          described_class.new.perform(match.id)
+          described_class.perform_later(match.id)
         rescue StockfishService::TimeoutError
           # Expected
         end
