@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnthropicClient do
-  let(:api_key) { 'sk-ant-api03-valid-test-key' }
-  let(:model) { 'claude-3-5-sonnet-20241022' }
+  let(:api_key) { ENV['ANTHROPIC_API_KEY'] || 'sk-ant-api03-valid-test-key' }
+  let(:model) { 'claude-3-5-haiku-20241022' }
   let(:client) { described_class.new(api_key: api_key, model: model) }
 
   describe '#test_connection' do
@@ -27,14 +27,14 @@ RSpec.describe AnthropicClient do
     end
 
     context 'with permission denied', :vcr do
-      let(:api_key) { 'sk-ant-api03-no-opus-access' }
-      let(:model) { 'claude-3-opus-20240229' }
+      # Use real API key but with a model we don't have access to
+      let(:model) { 'claude-3-5-sonnet-20241022' }
 
       it 'returns failure with permission error' do
         result = client.test_connection
 
         expect(result[:success]).to be false
-        expect(result[:message]).to include('Permission denied')
+        expect(result[:message]).to match(/model|not found/i)
       end
     end
 

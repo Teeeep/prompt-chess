@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe MatchExecutionJob, type: :job do
   let(:agent) { create(:agent) }
   let(:match) { create(:match, agent: agent, stockfish_level: 1) }
-  let(:session) { { llm_config: { provider: 'anthropic', api_key: 'test-key', model: 'claude-3-5-sonnet-20241022' } } }
+  let(:session) { { llm_config: { provider: 'anthropic', api_key: ENV['ANTHROPIC_API_KEY'] || 'test-key', model: 'claude-3-5-haiku-20241022' } } }
 
   describe '#perform' do
     it 'executes the match runner', vcr: { cassette_name: 'match_execution_job/success' } do

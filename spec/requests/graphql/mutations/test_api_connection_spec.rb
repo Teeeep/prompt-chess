@@ -30,14 +30,17 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
   end
 
   context 'when configured with valid key', :vcr do
+    let(:test_api_key) { ENV['ANTHROPIC_API_KEY'] || 'sk-ant-api03-valid-test-key' }
+    let(:test_model) { 'claude-3-5-haiku-20241022' }
+
     it 'returns success true' do
       # Configure session with valid API key
       post '/graphql', params: {
         query: <<~GQL,
           mutation {
             configureAnthropicApi(input: {
-              apiKey: "sk-ant-api03-valid-test-key",
-              model: "claude-3-5-sonnet-20241022"
+              apiKey: "#{test_api_key}",
+              model: "#{test_model}"
             }) {
               config { provider }
               errors
@@ -58,8 +61,8 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
         query: <<~GQL,
           mutation {
             configureAnthropicApi(input: {
-              apiKey: "sk-ant-api03-valid-test-key",
-              model: "claude-3-5-sonnet-20241022"
+              apiKey: "#{test_api_key}",
+              model: "#{test_model}"
             }) {
               config { provider }
               errors
@@ -80,8 +83,8 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
         query: <<~GQL,
           mutation {
             configureAnthropicApi(input: {
-              apiKey: "sk-ant-api03-valid-test-key",
-              model: "claude-3-5-sonnet-20241022"
+              apiKey: "#{test_api_key}",
+              model: "#{test_model}"
             }) {
               config { provider }
               errors
