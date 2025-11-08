@@ -9,6 +9,3 @@ application.register("chess-board", ChessBoardController)
 
 import MatchSubscriptionController from "controllers/match_subscription_controller"
 application.register("match-subscription", MatchSubscriptionController)
-
-import MoveFormController from "controllers/move_form_controller"
-application.register("move-form", MoveFormController)
