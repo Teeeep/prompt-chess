@@ -21,13 +21,8 @@ default: &default
 
 
 development:
-  primary: &primary_development
-    <<: *default
-    database: prompt_chess_temp_development
-  queue:
-    <<: *primary_development
-    database: prompt_chess_temp_development_queue
-    migrations_paths: db/queue_migrate
+  <<: *default
+  database: prompt_chess_temp_development
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -60,13 +55,8 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  primary: &primary_test
-    <<: *default
-    database: prompt_chess_temp_test
-  queue:
-    <<: *primary_test
-    database: prompt_chess_temp_test_queue
-    migrations_paths: db/queue_migrate
+  <<: *default
+  database: prompt_chess_temp_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
