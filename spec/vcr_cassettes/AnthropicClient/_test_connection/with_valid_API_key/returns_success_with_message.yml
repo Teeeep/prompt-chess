@@ -8,7 +8,7 @@ http_interactions:
       string: '{"model":"claude-3-5-haiku-20241022","max_tokens":10,"messages":[{"role":"user","content":"Hi"}]}'
     headers:
       X-Api-Key:
-      - "<ANTHROPIC_API_KEY>"
+      - <ANTHROPIC_API_KEY>
       Anthropic-Version:
       - '2023-06-01'
       Content-Type:
@@ -21,36 +21,62 @@ http_interactions:
       - "*/*"
   response:
     status:
-      code: 401
-      message: Unauthorized
+      code: 200
+      message: OK
     headers:
       Date:
-      - Sat, 08 Nov 2025 11:45:16 GMT
+      - Sat, 08 Nov 2025 11:52:30 GMT
       Content-Type:
       - application/json
-      Content-Length:
-      - '130'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
-      Cf-Ray:
-      - 99b4d2bd7a1c4b78-AMS
-      X-Should-Retry:
-      - 'false'
+      Anthropic-Ratelimit-Input-Tokens-Limit:
+      - '100000'
+      Anthropic-Ratelimit-Input-Tokens-Remaining:
+      - '100000'
+      Anthropic-Ratelimit-Input-Tokens-Reset:
+      - '2025-11-08T11:52:29Z'
+      Anthropic-Ratelimit-Output-Tokens-Limit:
+      - '20000'
+      Anthropic-Ratelimit-Output-Tokens-Remaining:
+      - '20000'
+      Anthropic-Ratelimit-Output-Tokens-Reset:
+      - '2025-11-08T11:52:30Z'
+      Anthropic-Ratelimit-Requests-Limit:
+      - '1000'
+      Anthropic-Ratelimit-Requests-Remaining:
+      - '999'
+      Anthropic-Ratelimit-Requests-Reset:
+      - '2025-11-08T11:52:29Z'
+      Retry-After:
+      - '31'
+      Anthropic-Ratelimit-Tokens-Limit:
+      - '120000'
+      Anthropic-Ratelimit-Tokens-Remaining:
+      - '120000'
+      Anthropic-Ratelimit-Tokens-Reset:
+      - '2025-11-08T11:52:29Z'
       Request-Id:
-      - req_011CUvNA2daTcKNcPApxKviu
+      - req_011CUvNhwPTEBiMu2fzFUyNo
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
+      Anthropic-Organization-Id:
+      - 6c2f15c1-cf98-4c27-9e52-3e5902822ce7
       X-Envoy-Upstream-Service-Time:
-      - '23'
+      - '776'
       Cf-Cache-Status:
       - DYNAMIC
       X-Robots-Tag:
       - none
       Server:
       - cloudflare
+      Cf-Ray:
+      - 99b4dd4f1ad95811-AMS
     body:
-      encoding: UTF-8
-      string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
-        x-api-key"},"request_id":"req_011CUvNA2daTcKNcPApxKviu"}'
-  recorded_at: Sat, 08 Nov 2025 11:45:16 GMT
+      encoding: ASCII-8BIT
+      string: '{"model":"claude-3-5-haiku-20241022","id":"msg_011comeJahskgHSKmKdkenDW","type":"message","role":"assistant","content":[{"type":"text","text":"Hello!
+        How are you doing today? Is there"}],"stop_reason":"max_tokens","stop_sequence":null,"usage":{"input_tokens":8,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":10,"service_tier":"standard"}}'
+  recorded_at: Sat, 08 Nov 2025 11:52:30 GMT
 recorded_with: VCR 6.3.1

@@ -5,15 +5,7 @@ http_interactions:
     uri: https://api.anthropic.com/v1/messages
     body:
       encoding: UTF-8
-      string: '{"model":"claude-3-5-haiku-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
-        are a chess-playing AI agent named \"Chess Master 802\".\n\nYour personality
-        and strategy: You are a tactical chess master.\n\nCurrent Position (FEN):
-        rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\n\nMove History:
-        (game start)\n\nGame Context:\n- Your color: White\n- Move number: 1\n- Legal
-        moves: e4, d4, Nf3, c4\n\nAnalyze the position and respond with your next
-        move.\nFormat: MOVE: [your move in standard algebraic notation]\n\nExample
-        responses:\n- \"I''ll control the center with e4. MOVE: e4\"\n- \"Developing
-        the knight is best. MOVE: Nf3\"\n\nNow choose your move:\n"}]}'
+      string: '{"model":"claude-3-5-haiku-20241022","max_tokens":10,"messages":[{"role":"user","content":"Hi"}]}'
     headers:
       X-Api-Key:
       - "<ANTHROPIC_API_KEY>"
@@ -33,7 +25,7 @@ http_interactions:
       message: Unauthorized
     headers:
       Date:
-      - Sat, 08 Nov 2025 11:53:18 GMT
+      - Sat, 08 Nov 2025 11:54:05 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -41,15 +33,15 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 99b4de8059e70e3c-AMS
+      - 99b4dfa869fdf5c3-AMS
       X-Should-Retry:
       - 'false'
       Request-Id:
-      - req_011CUvNmYGGAEQhTu8xnRwg3
+      - req_011CUvNq2nLW6RhKS8azJ7dX
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       X-Envoy-Upstream-Service-Time:
-      - '11'
+      - '16'
       Cf-Cache-Status:
       - DYNAMIC
       X-Robots-Tag:
@@ -59,6 +51,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
-        x-api-key"},"request_id":"req_011CUvNmYGGAEQhTu8xnRwg3"}'
-  recorded_at: Sat, 08 Nov 2025 11:53:18 GMT
+        x-api-key"},"request_id":"req_011CUvNq2nLW6RhKS8azJ7dX"}'
+  recorded_at: Sat, 08 Nov 2025 11:54:05 GMT
 recorded_with: VCR 6.3.1
