@@ -39,6 +39,13 @@ RSpec.configure do |config|
   # Allow all hosts in test environment to prevent blocked host errors
   config.before(:suite) do
     Rails.application.config.hosts.clear
+
+    # Truncate all tables before running the test suite to ensure clean state
+    # This handles any leftover data from previous test runs
+    ActiveRecord::Base.connection.tables.each do |table|
+      next if table == 'schema_migrations' || table == 'ar_internal_metadata'
+      ActiveRecord::Base.connection.execute("TRUNCATE TABLE #{table} RESTART IDENTITY CASCADE")
+    end
   end
 
   # Include FactoryBot syntax methods
