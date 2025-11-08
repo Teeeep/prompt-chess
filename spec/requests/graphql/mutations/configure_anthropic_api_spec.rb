@@ -18,7 +18,7 @@ RSpec.describe 'Mutations::ConfigureAnthropicApi', type: :request do
   end
 
   let(:valid_api_key) { 'sk-ant-api03-test1234567890abcdef' }
-  let(:valid_model) { 'claude-3-5-sonnet-20241022' }
+  let(:valid_model) { 'claude-3-5-haiku-20241022' }
 
   def execute_mutation(api_key:, model:)
     post '/graphql', params: {
