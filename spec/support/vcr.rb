@@ -11,6 +11,9 @@ VCR.configure do |c|
 
   c.allow_http_connections_when_no_cassette = false
 
+  # Allow cassettes to be reused for multiple identical requests
+  c.default_cassette_options = { allow_playback_repeats: true }
+
   # Ignore localhost connections for Selenium/Capybara system tests
   c.ignore_hosts '127.0.0.1', 'localhost'
 end

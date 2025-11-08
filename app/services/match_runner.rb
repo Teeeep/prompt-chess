@@ -40,7 +40,9 @@ class MatchRunner
 
   def play_turn(player:)
     board_before = @validator.current_fen
-    move_number = (@match.moves.count / 2) + 1
+    # Use ply number (sequential half-move count) instead of full move number
+    # because the unique constraint is on match_id + move_number only
+    move_number = @match.moves.count + 1
 
     if player == :agent
       play_agent_move(board_before, move_number)
