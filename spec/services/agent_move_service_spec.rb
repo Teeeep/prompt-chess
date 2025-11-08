@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AgentMoveService do
   let(:agent) { create(:agent, prompt_text: 'You are a tactical chess master.') }
-  let(:session) { { llm_config: { provider: 'anthropic', api_key: 'test-key', model: 'claude-3-5-sonnet-20241022' } } }
+  let(:session) { { llm_config: { provider: 'anthropic', api_key: ENV['ANTHROPIC_API_KEY'] || 'test-key', model: 'claude-3-5-haiku-20241022' } } }
   let(:starting_fen) { 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' }
   let(:validator) { instance_double('MoveValidator', current_fen: starting_fen, legal_moves: ['e4', 'd4', 'Nf3', 'c4'], valid_move?: true) }
 

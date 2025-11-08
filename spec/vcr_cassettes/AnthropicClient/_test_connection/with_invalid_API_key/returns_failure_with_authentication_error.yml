@@ -5,16 +5,16 @@ http_interactions:
     uri: https://api.anthropic.com/v1/messages
     body:
       encoding: UTF-8
-      string: '{"model":"claude-3-5-sonnet-20241022","max_tokens":10,"messages":[{"role":"user","content":"Hi"}]}'
+      string: '{"model":"claude-3-5-haiku-20241022","max_tokens":10,"messages":[{"role":"user","content":"Hi"}]}'
     headers:
-      User-Agent:
-      - Faraday v2.7.11
       X-Api-Key:
-      - sk-ant-api03-invalid-key
+      - "<ANTHROPIC_API_KEY>"
       Anthropic-Version:
       - '2023-06-01'
       Content-Type:
       - application/json
+      User-Agent:
+      - Faraday v2.14.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -24,14 +24,33 @@ http_interactions:
       code: 401
       message: Unauthorized
     headers:
+      Date:
+      - Sat, 08 Nov 2025 10:23:01 GMT
       Content-Type:
       - application/json
-      Date:
-      - Tue, 05 Nov 2025 12:00:00 GMT
       Content-Length:
-      - '123'
+      - '130'
+      Connection:
+      - keep-alive
+      Cf-Ray:
+      - 99b45a42bf4f2f36-AMS
+      X-Should-Retry:
+      - 'false'
+      Request-Id:
+      - req_011CUvFtFzMEfLHifLKyJ5m4
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Envoy-Upstream-Service-Time:
+      - '38'
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Server:
+      - cloudflare
     body:
       encoding: UTF-8
-      string: '{"type":"error","error":{"type":"authentication_error","message":"invalid x-api-key"}}'
-  recorded_at: Tue, 05 Nov 2025 12:00:00 GMT
-recorded_with: VCR 6.2.0
+      string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
+        x-api-key"},"request_id":"req_011CUvFtFzMEfLHifLKyJ5m4"}'
+  recorded_at: Sat, 08 Nov 2025 10:23:01 GMT
+recorded_with: VCR 6.3.1

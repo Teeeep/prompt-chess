@@ -5,11 +5,11 @@ http_interactions:
     uri: https://api.anthropic.com/v1/messages
     body:
       encoding: UTF-8
-      string: '{"model":"claude-3-5-sonnet-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
-        are a chess-playing AI agent named \"Chess Master 136\".\n\nYour personality
-        and strategy: You are a chess master specializing in tactical play. You analyze
-        positions deeply and suggest the best moves based on chess principles and
-        tactics.\n\nCurrent Position (FEN): rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
+      string: '{"model":"claude-3-5-haiku-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
+        are a chess-playing AI agent named \"Chess Master 53\".\n\nYour personality
+        and strategy: You are a chess master specializing in positional play. You
+        analyze positions deeply and suggest the best moves based on chess principles
+        and tactics.\n\nCurrent Position (FEN): rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
         w KQkq - 0 1\n\nMove History: (game start)\n\nGame Context:\n- Your color:
         White\n- Move number: 1\n- Legal moves: Na3, Nc3, Nf3, Nh3, a3, a4, b3, b4,
         c3, c4, d3, d4, e3, e4, f3, f4, g3, g4, h3, h4\n\nAnalyze the position and
@@ -18,7 +18,7 @@ http_interactions:
         e4\"\n- \"Developing the knight is best. MOVE: Nf3\"\n\nNow choose your move:\n"}]}'
     headers:
       X-Api-Key:
-      - test-key
+      - "<ANTHROPIC_API_KEY>"
       Anthropic-Version:
       - '2023-06-01'
       Content-Type:
@@ -35,7 +35,7 @@ http_interactions:
       message: Unauthorized
     headers:
       Date:
-      - Fri, 07 Nov 2025 20:27:06 GMT
+      - Sat, 08 Nov 2025 10:56:15 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -43,15 +43,15 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 99af91c598a95392-AMS
+      - 99b48af11858fe9c-AMS
       X-Should-Retry:
       - 'false'
       Request-Id:
-      - req_011CUuA97dmngtYCUgKCa2Wi
+      - req_011CUvJRF87Nw9Z1StV7uyE7
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       X-Envoy-Upstream-Service-Time:
-      - '12'
+      - '27'
       Cf-Cache-Status:
       - DYNAMIC
       X-Robots-Tag:
@@ -61,6 +61,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
-        x-api-key"},"request_id":"req_011CUuA97dmngtYCUgKCa2Wi"}'
-  recorded_at: Fri, 07 Nov 2025 20:27:06 GMT
+        x-api-key"},"request_id":"req_011CUvJRF87Nw9Z1StV7uyE7"}'
+  recorded_at: Sat, 08 Nov 2025 10:56:15 GMT
 recorded_with: VCR 6.3.1

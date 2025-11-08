@@ -1,11 +1,11 @@
 module Mutations
-  class ConfigureAnthropicApi < BaseMutation
-    description "Configure Anthropic API credentials and model selection"
+  class ConfigureOpenaiApi < BaseMutation
+    description "Configure OpenAI API credentials and model selection"
 
     argument :api_key, String, required: true,
-      description: "Anthropic API key (starts with 'sk-ant-')"
+      description: "OpenAI API key (starts with 'sk-')"
     argument :model, String, required: true,
-      description: "Claude model to use"
+      description: "OpenAI model to use"
 
     field :config, Types::LlmConfigType, null: true,
       description: "The configured LLM settings (null if errors occurred)"
@@ -13,23 +13,19 @@ module Mutations
       description: "Validation errors (empty array if successful)"
 
     ALLOWED_MODELS = [
-      # Claude 4 family (latest)
-      'claude-haiku-4-5-20251001',
-      'claude-sonnet-4-5-20250929',
-      'claude-opus-4-1-20250805',
-      'claude-opus-4-20250514',
-      'claude-sonnet-4-20250514',
-      # Claude 3 family
-      'claude-3-5-haiku-20241022',
-      'claude-3-haiku-20240307'
+      'gpt-4',
+      'gpt-4-turbo',
+      'gpt-4-turbo-preview',
+      'gpt-3.5-turbo',
+      'gpt-3.5-turbo-16k'
     ].freeze
 
     def resolve(api_key:, model:)
       errors = []
 
       # Validate API key format
-      unless api_key.start_with?('sk-ant-')
-        errors << "API key must start with 'sk-ant-'"
+      unless api_key.start_with?('sk-')
+        errors << "API key must start with 'sk-'"
       end
 
       # Validate model
@@ -42,7 +38,7 @@ module Mutations
       # Store in session
       LlmConfigService.store(
         context[:session],
-        provider: 'anthropic',
+        provider: 'openai',
         api_key: api_key,
         model: model
       )

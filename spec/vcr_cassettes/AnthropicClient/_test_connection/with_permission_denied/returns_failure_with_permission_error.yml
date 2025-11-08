@@ -5,33 +5,54 @@ http_interactions:
     uri: https://api.anthropic.com/v1/messages
     body:
       encoding: UTF-8
-      string: '{"model":"claude-3-opus-20240229","max_tokens":10,"messages":[{"role":"user","content":"Hi"}]}'
+      string: '{"model":"claude-3-5-sonnet-20241022","max_tokens":10,"messages":[{"role":"user","content":"Hi"}]}'
     headers:
-      User-Agent:
-      - Faraday v2.7.11
       X-Api-Key:
-      - sk-ant-api03-no-opus-access
+      - <ANTHROPIC_API_KEY>
       Anthropic-Version:
       - '2023-06-01'
       Content-Type:
       - application/json
+      User-Agent:
+      - Faraday v2.14.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
       - "*/*"
   response:
     status:
-      code: 403
-      message: Forbidden
+      code: 404
+      message: Not Found
     headers:
+      Date:
+      - Sat, 08 Nov 2025 09:55:42 GMT
       Content-Type:
       - application/json
-      Date:
-      - Tue, 05 Nov 2025 12:00:00 GMT
-      Content-Length:
-      - '178'
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Should-Retry:
+      - 'false'
+      Request-Id:
+      - req_011CUvDoRAPGXbc7xE21Y2ns
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Anthropic-Organization-Id:
+      - 6c2f15c1-cf98-4c27-9e52-3e5902822ce7
+      X-Envoy-Upstream-Service-Time:
+      - '34'
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99b4323cea0ca11d-AMS
     body:
-      encoding: UTF-8
-      string: '{"type":"error","error":{"type":"permission_error","message":"Your API key does not have permission to use the specified model"}}'
-  recorded_at: Tue, 05 Nov 2025 12:00:00 GMT
-recorded_with: VCR 6.2.0
+      encoding: ASCII-8BIT
+      string: '{"type":"error","error":{"type":"not_found_error","message":"model:
+        claude-3-5-sonnet-20241022"},"request_id":"req_011CUvDoRAPGXbc7xE21Y2ns"}'
+  recorded_at: Sat, 08 Nov 2025 09:55:42 GMT
+recorded_with: VCR 6.3.1

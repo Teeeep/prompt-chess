@@ -5,9 +5,9 @@ http_interactions:
     uri: https://api.anthropic.com/v1/messages
     body:
       encoding: UTF-8
-      string: '{"model":"claude-3-5-sonnet-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
-        are a chess-playing AI agent named \"Chess Master 930\".\n\nYour personality
-        and strategy: You are a chess master specializing in endgame play. You analyze
+      string: '{"model":null,"max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
+        are a chess-playing AI agent named \"Chess Master 793\".\n\nYour personality
+        and strategy: You are a chess master specializing in opening play. You analyze
         positions deeply and suggest the best moves based on chess principles and
         tactics.\n\nCurrent Position (FEN): rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
         w KQkq - 0 1\n\nMove History: (game start)\n\nGame Context:\n- Your color:
@@ -17,8 +17,6 @@ http_interactions:
         notation]\n\nExample responses:\n- \"I''ll control the center with e4. MOVE:
         e4\"\n- \"Developing the knight is best. MOVE: Nf3\"\n\nNow choose your move:\n"}]}'
     headers:
-      X-Api-Key:
-      - test-key
       Anthropic-Version:
       - '2023-06-01'
       Content-Type:
@@ -35,23 +33,23 @@ http_interactions:
       message: Unauthorized
     headers:
       Date:
-      - Fri, 07 Nov 2025 20:27:11 GMT
+      - Sat, 08 Nov 2025 10:56:11 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '130'
+      - '141'
       Connection:
       - keep-alive
       Cf-Ray:
-      - 99af91e15b36fea4-AMS
+      - 99b48ad4dddbfff5-AMS
       X-Should-Retry:
       - 'false'
       Request-Id:
-      - req_011CUuA9Sph2Vo8ALGAAmr3F
+      - req_011CUvJQun2C8FFryi9XZfnu
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       X-Envoy-Upstream-Service-Time:
-      - '93'
+      - '6'
       Cf-Cache-Status:
       - DYNAMIC
       X-Robots-Tag:
@@ -60,7 +58,7 @@ http_interactions:
       - cloudflare
     body:
       encoding: UTF-8
-      string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
-        x-api-key"},"request_id":"req_011CUuA9Sph2Vo8ALGAAmr3F"}'
-  recorded_at: Fri, 07 Nov 2025 20:27:11 GMT
+      string: '{"type":"error","error":{"type":"authentication_error","message":"x-api-key
+        header is required"},"request_id":"req_011CUvJQun2C8FFryi9XZfnu"}'
+  recorded_at: Sat, 08 Nov 2025 10:56:11 GMT
 recorded_with: VCR 6.3.1

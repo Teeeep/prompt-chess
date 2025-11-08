@@ -5,8 +5,8 @@ http_interactions:
     uri: https://api.anthropic.com/v1/messages
     body:
       encoding: UTF-8
-      string: '{"model":"claude-3-5-sonnet-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
-        are a chess-playing AI agent named \"Chess Master 42\".\n\nYour personality
+      string: '{"model":"claude-3-5-haiku-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
+        are a chess-playing AI agent named \"Chess Master 178\".\n\nYour personality
         and strategy: You are a tactical chess master.\n\nCurrent Position (FEN):
         rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\n\nMove History:
         (game start)\n\nGame Context:\n- Your color: White\n- Move number: 1\n- Legal
@@ -15,14 +15,14 @@ http_interactions:
         responses:\n- \"I''ll control the center with e4. MOVE: e4\"\n- \"Developing
         the knight is best. MOVE: Nf3\"\n\nNow choose your move:\n"}]}'
     headers:
-      User-Agent:
-      - Faraday v2.12.1
       X-Api-Key:
-      - "<ANTHROPIC_API_KEY>"
+      - <ANTHROPIC_API_KEY>
       Anthropic-Version:
       - '2023-06-01'
       Content-Type:
       - application/json
+      User-Agent:
+      - Faraday v2.14.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -33,32 +33,67 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 05 Nov 2025 12:30:45 GMT
+      - Sat, 08 Nov 2025 10:02:41 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-      X-Request-Id:
-      - req_01234567890abcdef
-      Anthropic-Ratelimit-Requests-Limit:
-      - '50'
-      Anthropic-Ratelimit-Requests-Remaining:
-      - '49'
-      Anthropic-Ratelimit-Requests-Reset:
-      - '2025-11-05T12:31:45Z'
-      Anthropic-Ratelimit-Tokens-Limit:
+      Anthropic-Ratelimit-Input-Tokens-Limit:
       - '100000'
+      Anthropic-Ratelimit-Input-Tokens-Remaining:
+      - '100000'
+      Anthropic-Ratelimit-Input-Tokens-Reset:
+      - '2025-11-08T10:02:37Z'
+      Anthropic-Ratelimit-Output-Tokens-Limit:
+      - '20000'
+      Anthropic-Ratelimit-Output-Tokens-Remaining:
+      - '20000'
+      Anthropic-Ratelimit-Output-Tokens-Reset:
+      - '2025-11-08T10:02:41Z'
+      Anthropic-Ratelimit-Requests-Limit:
+      - '1000'
+      Anthropic-Ratelimit-Requests-Remaining:
+      - '999'
+      Anthropic-Ratelimit-Requests-Reset:
+      - '2025-11-08T10:02:37Z'
+      Retry-After:
+      - '23'
+      Anthropic-Ratelimit-Tokens-Limit:
+      - '120000'
       Anthropic-Ratelimit-Tokens-Remaining:
-      - '99850'
+      - '120000'
       Anthropic-Ratelimit-Tokens-Reset:
-      - '2025-11-05T12:31:45Z'
+      - '2025-11-08T10:02:37Z'
+      Request-Id:
+      - req_011CUvEL1N2RFz48pGx6Fjho
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Anthropic-Organization-Id:
+      - 6c2f15c1-cf98-4c27-9e52-3e5902822ce7
+      X-Envoy-Upstream-Service-Time:
+      - '4294'
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99b43c5e8c9ae18e-AMS
     body:
-      encoding: UTF-8
-      string: '{"id":"msg_01AbCdEfGhIjKlMnOpQrStUv","type":"message","role":"assistant","content":[{"type":"text","text":"I''ll
-        start with the classic King''s Pawn opening to control the center and open
-        lines for my pieces. This move gives me immediate central control and allows
-        for quick piece development.\n\nMOVE: e4"}],"model":"claude-3-5-sonnet-20241022","stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":145,"output_tokens":55}}'
-  recorded_at: Tue, 05 Nov 2025 12:30:45 GMT
-recorded_with: VCR 6.2.0
+      encoding: ASCII-8BIT
+      string: '{"model":"claude-3-5-haiku-20241022","id":"msg_0197w93eydEhQ5D8aU2yt699","type":"message","role":"assistant","content":[{"type":"text","text":"As
+        Chess Master 178, I''ll opt for a classic opening move that immediately stakes
+        a claim in the central squares and opens lines for my bishop and queen.\n\nMOVE:
+        e4\n\nThis move follows a fundamental chess principle: control the center.
+        By advancing the king''s pawn two squares, I''m creating immediate tension,
+        challenging Black''s central control, and creating opportunities for rapid
+        piece development. It''s a standard opening that offers multiple strategic
+        possibilities and sets the stage for dynamic play.\n\nThe e4 square provides
+        a strong central foothold and prepares for potential kingside piece development.
+        It''s a move that has been favored by many chess masters throughout history
+        and offers a solid, aggressive start to the game."}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":203,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":150,"service_tier":"standard"}}'
+  recorded_at: Sat, 08 Nov 2025 10:02:41 GMT
+recorded_with: VCR 6.3.1

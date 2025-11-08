@@ -8,7 +8,7 @@ http_interactions:
       string: '{"model":"claude-3-5-sonnet-20241022","max_tokens":10,"messages":[{"role":"user","content":"Hi"}]}'
     headers:
       X-Api-Key:
-      - sk-ant-api03-invalid-key
+      - "<ANTHROPIC_API_KEY>"
       Anthropic-Version:
       - '2023-06-01'
       Content-Type:
@@ -25,7 +25,7 @@ http_interactions:
       message: Unauthorized
     headers:
       Date:
-      - Wed, 05 Nov 2025 10:01:38 GMT
+      - Sat, 08 Nov 2025 10:23:02 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -33,15 +33,15 @@ http_interactions:
       Connection:
       - keep-alive
       Cf-Ray:
-      - 999b82d0da8c6667-AMS
+      - 99b45a4598a6666d-AMS
       X-Should-Retry:
       - 'false'
       Request-Id:
-      - req_011CUpYpwtoG66KoA3tpgjPo
+      - req_011CUvFtHyAMvqkJ2eMLba87
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       X-Envoy-Upstream-Service-Time:
-      - '148'
+      - '12'
       Cf-Cache-Status:
       - DYNAMIC
       X-Robots-Tag:
@@ -51,6 +51,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"type":"error","error":{"type":"authentication_error","message":"invalid
-        x-api-key"},"request_id":"req_011CUpYpwtoG66KoA3tpgjPo"}'
-  recorded_at: Wed, 05 Nov 2025 10:01:38 GMT
+        x-api-key"},"request_id":"req_011CUvFtHyAMvqkJ2eMLba87"}'
+  recorded_at: Sat, 08 Nov 2025 10:23:02 GMT
 recorded_with: VCR 6.3.1

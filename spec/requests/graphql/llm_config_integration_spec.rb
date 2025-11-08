@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'LLM Configuration Integration', type: :request do
-  let(:valid_api_key) { 'sk-ant-api03-valid-test-key' }
-  let(:valid_model) { 'claude-3-5-sonnet-20241022' }
+  let(:valid_api_key) { ENV['ANTHROPIC_API_KEY'] || 'sk-ant-api03-valid-test-key' }
+  let(:valid_model) { 'claude-3-5-haiku-20241022' }
 
   describe 'full workflow: configure → test → query → clear', :vcr do
     it 'completes successfully' do

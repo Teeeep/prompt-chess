@@ -5,8 +5,8 @@ http_interactions:
     uri: https://api.anthropic.com/v1/messages
     body:
       encoding: UTF-8
-      string: '{"model":"claude-3-5-sonnet-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
-        are a chess-playing AI agent named \"Chess Master 42\".\n\nYour personality
+      string: '{"model":"claude-3-5-haiku-20241022","max_tokens":1000,"temperature":0.7,"messages":[{"role":"user","content":"You
+        are a chess-playing AI agent named \"Chess Master 390\".\n\nYour personality
         and strategy: You are a tactical chess master.\n\nCurrent Position (FEN):
         rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2\n\nMove History:\n1.
         e4 e5\n\nGame Context:\n- Your color: White\n- Move number: 2\n- Legal moves:
@@ -15,14 +15,14 @@ http_interactions:
         \"I''ll control the center with e4. MOVE: e4\"\n- \"Developing the knight
         is best. MOVE: Nf3\"\n\nNow choose your move:\n"}]}'
     headers:
-      User-Agent:
-      - Faraday v2.12.1
       X-Api-Key:
-      - "<ANTHROPIC_API_KEY>"
+      - <ANTHROPIC_API_KEY>
       Anthropic-Version:
       - '2023-06-01'
       Content-Type:
       - application/json
+      User-Agent:
+      - Faraday v2.14.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Accept:
@@ -33,32 +33,67 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 05 Nov 2025 12:31:15 GMT
+      - Sat, 08 Nov 2025 10:02:37 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
       - chunked
       Connection:
       - keep-alive
-      X-Request-Id:
-      - req_98765432109876543
-      Anthropic-Ratelimit-Requests-Limit:
-      - '50'
-      Anthropic-Ratelimit-Requests-Remaining:
-      - '48'
-      Anthropic-Ratelimit-Requests-Reset:
-      - '2025-11-05T12:32:15Z'
-      Anthropic-Ratelimit-Tokens-Limit:
+      Anthropic-Ratelimit-Input-Tokens-Limit:
       - '100000'
+      Anthropic-Ratelimit-Input-Tokens-Remaining:
+      - '100000'
+      Anthropic-Ratelimit-Input-Tokens-Reset:
+      - '2025-11-08T10:02:32Z'
+      Anthropic-Ratelimit-Output-Tokens-Limit:
+      - '20000'
+      Anthropic-Ratelimit-Output-Tokens-Remaining:
+      - '20000'
+      Anthropic-Ratelimit-Output-Tokens-Reset:
+      - '2025-11-08T10:02:37Z'
+      Anthropic-Ratelimit-Requests-Limit:
+      - '1000'
+      Anthropic-Ratelimit-Requests-Remaining:
+      - '999'
+      Anthropic-Ratelimit-Requests-Reset:
+      - '2025-11-08T10:02:32Z'
+      Retry-After:
+      - '28'
+      Anthropic-Ratelimit-Tokens-Limit:
+      - '120000'
       Anthropic-Ratelimit-Tokens-Remaining:
-      - '99700'
+      - '120000'
       Anthropic-Ratelimit-Tokens-Reset:
-      - '2025-11-05T12:32:15Z'
+      - '2025-11-08T10:02:32Z'
+      Request-Id:
+      - req_011CUvEKcwePzHQ9NuNBLCfX
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Anthropic-Organization-Id:
+      - 6c2f15c1-cf98-4c27-9e52-3e5902822ce7
+      X-Envoy-Upstream-Service-Time:
+      - '5099'
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99b43c3dae19656c-AMS
     body:
-      encoding: UTF-8
-      string: '{"id":"msg_02WxYzAbCdEfGhIjKlMnOp","type":"message","role":"assistant","content":[{"type":"text","text":"After
-        1. e4 e5, I''ll develop my knight to its best square. Nf3 attacks the e5
-        pawn, develops a piece, and prepares for castling. This is a classic opening
-        principle: develop knights before bishops.\n\nMOVE: Nf3"}],"model":"claude-3-5-sonnet-20241022","stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":160,"output_tokens":62}}'
-  recorded_at: Tue, 05 Nov 2025 12:31:15 GMT
-recorded_with: VCR 6.2.0
+      encoding: ASCII-8BIT
+      string: '{"model":"claude-3-5-haiku-20241022","id":"msg_01BQp9tEVT3LzosSMyie5BMh","type":"message","role":"assistant","content":[{"type":"text","text":"Let
+        me analyze the current position:\n\nWe have a standard King''s Pawn Opening
+        (1.e4 e5), which creates symmetrical tension in the center. At move 2, my
+        primary strategic goals are:\n1. Control the central squares\n2. Develop pieces\n3.
+        Create opportunities for piece coordination\n\nGiven these objectives, I''ll
+        choose a classic developing move that increases central control and prepares
+        for kingside castling.\n\nMOVE: Nf3\n\nReasoning:\n- The knight move to f3
+        develops a piece\n- It attacks the e5 pawn, creating pressure\n- It prepares
+        for potential kingside castling\n- It supports future central expansion\n-
+        A standard, solid move in many open games\n\nThis move follows sound opening
+        principles and maintains tactical flexibility."}],"stop_reason":"end_turn","stop_sequence":null,"usage":{"input_tokens":216,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":174,"service_tier":"standard"}}'
+  recorded_at: Sat, 08 Nov 2025 10:02:37 GMT
+recorded_with: VCR 6.3.1
