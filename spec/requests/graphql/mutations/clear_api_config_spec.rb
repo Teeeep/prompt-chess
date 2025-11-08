@@ -24,7 +24,7 @@ RSpec.describe 'Mutations::ClearApiConfig', type: :request do
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",
-              model: "claude-3-5-sonnet-20241022"
+              model: "claude-3-5-haiku-20241022"
             }) {
               config { provider }
               errors

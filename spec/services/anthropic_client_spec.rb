@@ -28,7 +28,7 @@ RSpec.describe AnthropicClient do
 
     context 'with permission denied', :vcr do
       # Use real API key but with a model we don't have access to
-      let(:model) { 'claude-3-5-sonnet-20241022' }
+      let(:model) { 'claude-3-5-haiku-20241022' }
 
       it 'returns failure with permission error' do
         result = client.test_connection

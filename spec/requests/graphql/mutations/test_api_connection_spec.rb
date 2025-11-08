@@ -108,7 +108,7 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-invalid-key",
-              model: "claude-3-5-sonnet-20241022"
+              model: "claude-3-5-haiku-20241022"
             }) {
               config { provider }
               errors
@@ -130,7 +130,7 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-invalid-key",
-              model: "claude-3-5-sonnet-20241022"
+              model: "claude-3-5-haiku-20241022"
             }) {
               config { provider }
               errors
@@ -152,7 +152,7 @@ RSpec.describe 'Mutations::TestApiConnection', type: :request do
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-invalid-key",
-              model: "claude-3-5-sonnet-20241022"
+              model: "claude-3-5-haiku-20241022"
             }) {
               config { provider }
               errors

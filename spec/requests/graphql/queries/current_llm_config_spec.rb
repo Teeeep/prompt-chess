@@ -27,7 +27,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",
-              model: "claude-3-5-sonnet-20241022"
+              model: "claude-3-5-haiku-20241022"
             }) {
               config { provider }
               errors
@@ -40,7 +40,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
 
       config = result.dig('data', 'currentLlmConfig')
       expect(config['provider']).to eq('anthropic')
-      expect(config['model']).to eq('claude-3-5-sonnet-20241022')
+      expect(config['model']).to eq('claude-3-5-haiku-20241022')
     end
 
     it 'masks API key showing only last 4 characters' do
@@ -50,7 +50,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",
-              model: "claude-3-5-sonnet-20241022"
+              model: "claude-3-5-haiku-20241022"
             }) {
               config { provider }
               errors
@@ -72,7 +72,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",
-              model: "claude-3-5-sonnet-20241022"
+              model: "claude-3-5-haiku-20241022"
             }) {
               config { provider }
               errors
@@ -95,7 +95,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",
-              model: "claude-3-5-sonnet-20241022"
+              model: "claude-3-5-haiku-20241022"
             }) {
               config { provider }
               errors
@@ -128,7 +128,7 @@ RSpec.describe 'Queries::CurrentLlmConfig', type: :request do
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234",
-              model: "claude-3-5-sonnet-20241022"
+              model: "claude-3-5-haiku-20241022"
             }) {
               config { provider }
               errors

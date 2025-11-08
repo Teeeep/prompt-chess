@@ -28,7 +28,7 @@ RSpec.describe 'CreateMatch Integration', type: :request do
         mutation {
           configureAnthropicApi(input: {
             apiKey: "sk-ant-api03-test1234567890abcdef",
-            model: "claude-3-5-sonnet-20241022"
+            model: "claude-3-5-haiku-20241022"
           }) {
             config {
               provider

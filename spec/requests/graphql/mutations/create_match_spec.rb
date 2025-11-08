@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Mutations::CreateMatch', type: :request do
   let(:agent) { create(:agent) }
-  let(:session_data) { { llm_config: { provider: 'anthropic', api_key: 'test-key', model: 'claude-3-5-sonnet-20241022' } } }
+  let(:session_data) { { llm_config: { provider: 'anthropic', api_key: 'test-key', model: 'claude-3-5-haiku-20241022' } } }
 
   let(:mutation) do
     <<~GQL
@@ -28,7 +28,7 @@ RSpec.describe 'Mutations::CreateMatch', type: :request do
           mutation {
             configureAnthropicApi(input: {
               apiKey: "sk-ant-api03-test1234567890abcdef",
-              model: "claude-3-5-sonnet-20241022"
+              model: "claude-3-5-haiku-20241022"
             }) {
               config { provider }
             }
@@ -40,7 +40,7 @@ RSpec.describe 'Mutations::CreateMatch', type: :request do
     # Now call createMatch
     post '/graphql', params: {
       query: mutation,
-      variables: { agentId: agent_id, stockfishLevel: stockfish_level }
+      variables: { agentId: agent_id, stockfishLevel: stockfish_level }.to_json
     }
 
     JSON.parse(response.body)
