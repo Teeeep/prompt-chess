@@ -1,0 +1,58 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.anthropic.com/v1/messages
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-nonexistent-model-12345","max_tokens":10,"messages":[{"role":"user","content":"Hi"}]}'
+    headers:
+      X-Api-Key:
+      - <ANTHROPIC_API_KEY>
+      Anthropic-Version:
+      - '2023-06-01'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Sat, 08 Nov 2025 12:33:16 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Should-Retry:
+      - 'false'
+      Request-Id:
+      - req_011CUvRpK3xPjNEkMVxK2Msg
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Anthropic-Organization-Id:
+      - 6c2f15c1-cf98-4c27-9e52-3e5902822ce7
+      X-Envoy-Upstream-Service-Time:
+      - '25'
+      Cf-Cache-Status:
+      - DYNAMIC
+      X-Robots-Tag:
+      - none
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 99b5190c69f90b4a-AMS
+    body:
+      encoding: ASCII-8BIT
+      string: '{"type":"error","error":{"type":"not_found_error","message":"model:
+        claude-nonexistent-model-12345"},"request_id":"req_011CUvRpK3xPjNEkMVxK2Msg"}'
+  recorded_at: Sat, 08 Nov 2025 12:33:16 GMT
+recorded_with: VCR 6.3.1
