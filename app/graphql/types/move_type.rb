@@ -4,7 +4,9 @@ module Types
 
     field :id, ID, null: false
     field :move_number, Integer, null: false,
-      description: "Move number in the game (1-based)"
+      description: "Sequential ply number (1, 2, 3, 4...)"
+    field :chess_move_number, Integer, null: false,
+      description: "Traditional chess move number where white and black share the same number (1, 1, 2, 2...)"
     field :player, Types::MovePlayerEnum, null: false
     field :move_notation, String, null: false,
       description: "Move in standard algebraic notation (e.g., e4, Nf3, O-O)"
