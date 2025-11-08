@@ -149,6 +149,13 @@ class MatchRunner
   end
 
   def broadcast_update(latest_move)
+    # Broadcast via ActionCable for real-time UI updates
+    MatchChannel.broadcast_to(@match, {
+      type: "move_added",
+      move: MoveSerializer.new(latest_move).as_json
+    })
+
+    # Also broadcast via GraphQL subscriptions for compatibility
     PromptChessSchema.subscriptions.trigger(
       :match_updated,
       { match_id: @match.id.to_s },
