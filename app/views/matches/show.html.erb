@@ -40,9 +40,9 @@
   </div>
 
   <!-- Thinking Log (full width below) -->
-  <% if @match.moves.player_agent.any? %>
+  <% if @latest_agent_move %>
     <div class="mt-6">
-      <%= render ThinkingLogComponent.new(move: @match.moves.player_agent.last) %>
+      <%= render ThinkingLogComponent.new(move: @latest_agent_move) %>
     </div>
   <% end %>
 </div>

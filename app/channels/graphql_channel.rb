@@ -43,7 +43,14 @@ class GraphqlChannel < ApplicationCable::Channel
   def ensure_hash(ambiguous_param)
     case ambiguous_param
     when String
-      ambiguous_param.present? ? ensure_hash(JSON.parse(ambiguous_param)) : {}
+      return {} if ambiguous_param.blank?
+
+      begin
+        ensure_hash(JSON.parse(ambiguous_param))
+      rescue JSON::ParserError => e
+        Rails.logger.error("GraphQL Channel JSON parse error: #{e.message}")
+        raise ArgumentError, "Invalid JSON in variables: #{e.message}"
+      end
     when Hash, ActionController::Parameters
       ambiguous_param
     when nil
