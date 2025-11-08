@@ -46,41 +46,15 @@
     </div>
   <% end %>
 
-  <!-- Move Input Form -->
-  <% if @match.status_in_progress? %>
-    <div class="bg-white rounded-lg shadow-md p-6 mt-4"
-         data-controller="move-form"
-         data-match-id="<%= @match.id %>">
-      <h2 class="text-xl font-bold mb-4">Your Move</h2>
-
-      <%= form_with url: "#", method: :post, data: { action: "submit->move-form#submit" } do |f| %>
-        <div class="flex gap-2">
-          <%= f.text_field :move_notation,
-              placeholder: "e.g., e4, Nf3, O-O",
-              class: "flex-1 px-3 py-2 border border-gray-300 rounded-md",
-              data: { move_form_target: "input" } %>
-          <%= f.submit "Submit Move",
-              disabled: @match.moves.last&.player_agent?,
-              class: "px-4 py-2 bg-blue-600 text-white rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed",
-              data: { move_form_target: "submit" } %>
-        </div>
-      <% end %>
-
-      <div data-move-form-target="error" class="mt-2 text-red-600 text-sm"></div>
-      <div data-move-form-target="status" class="mt-2 text-gray-600 text-sm"></div>
-
-      <% if @match.moves.last&.player_agent? %>
-        <p class="mt-2 text-sm text-gray-500">Waiting for Stockfish...</p>
-      <% end %>
-    </div>
-  <% elsif @match.status_completed? %>
+  <!-- Game Status -->
+  <% if @match.status_completed? %>
     <div class="bg-white rounded-lg shadow-md p-6 mt-4">
       <h2 class="text-xl font-bold mb-2">Game Over</h2>
       <p class="text-lg">
         <% if @match.winner_draw? %>
           Draw by stalemate
         <% elsif @match.winner_agent? %>
-          Human wins by checkmate!
+          <%= @match.agent.name %> wins by checkmate!
         <% else %>
           Stockfish wins by checkmate
         <% end %>
