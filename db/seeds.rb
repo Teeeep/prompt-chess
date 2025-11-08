@@ -6,6 +6,18 @@ Agent.destroy_all
 
 # Create some agents
 puts "Creating agents..."
+
+# Temporary agent for human players (will be removed when LLM agents are integrated)
+human_agent = Agent.create!(
+  name: "Human Player",
+  role: "human",
+  prompt_text: "Temporary human player for testing game flow",
+  configuration: {
+    provider: "none",
+    model: "human"
+  }
+)
+
 agent1 = Agent.create!(
   name: "Chess Master Alpha",
   role: "aggressive_player",
@@ -145,7 +157,7 @@ Match.create!(
 )
 
 puts "Seed data created successfully!"
-puts "- 3 agents created"
+puts "- 4 agents created (including Human Player for testing)"
 puts "- 1 completed match with 4 moves"
 puts "- 1 in-progress match with 2 moves"
 puts "- 1 pending match"

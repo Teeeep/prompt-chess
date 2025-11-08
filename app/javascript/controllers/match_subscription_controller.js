@@ -9,25 +9,11 @@ export default class extends Controller {
 
     this.subscription = consumer.subscriptions.create(
       {
-        channel: "GraphqlChannel"
+        channel: "MatchChannel",
+        match_id: this.matchIdValue
       },
       {
-        connected: () => {
-          console.log("WebSocket connected, subscribing to match updates...")
-          this.subscribe()
-        },
-
-        disconnected: () => {
-          console.log("WebSocket disconnected")
-        },
-
-        received: (data) => {
-          console.log("Received subscription data:", data)
-
-          if (data.result && data.result.data && data.result.data.matchUpdated) {
-            this.handleMatchUpdate(data.result.data.matchUpdated)
-          }
-        }
+        received: this.received.bind(this)
       }
     )
   }
@@ -38,41 +24,53 @@ export default class extends Controller {
     }
   }
 
-  subscribe() {
-    const query = `
-      subscription($matchId: ID!) {
-        matchUpdated(matchId: $matchId) {
-          match {
-            id
-            status
-            totalMoves
-            totalTokensUsed
-            totalCostCents
-            winner
-            resultReason
-          }
-          latestMove {
-            id
-            moveNumber
-            player
-            moveNotation
-          }
-        }
-      }
-    `
+  received(data) {
+    console.log("Received data:", data)
 
-    this.subscription.send({
-      query: query,
-      variables: { matchId: this.matchIdValue },
-      operationName: null
-    })
+    if (data.type === "move_added") {
+      this.handleMoveAdded(data.move)
+    } else if (data.type === "error") {
+      this.handleError(data.message)
+    }
   }
 
-  handleMatchUpdate(data) {
-    console.log("Match updated:", data)
+  handleMoveAdded(move) {
+    // Update chess board
+    const chessBoardElement = document.querySelector("[data-controller='chess-board']")
+    if (chessBoardElement && this.application) {
+      const chessBoardController = this.application.getControllerForElementAndIdentifier(
+        chessBoardElement,
+        "chess-board"
+      )
+      if (chessBoardController) {
+        chessBoardController.positionValue = move.board_state_after
+      }
+    }
 
-    // Reload the page to show updates (simple MVP approach)
-    // In production, would use Turbo Streams for targeted updates
+    // Re-enable submit button if it's a Stockfish move
+    if (move.player === "stockfish") {
+      const moveFormElement = document.querySelector("[data-controller='move-form']")
+      if (moveFormElement && this.application) {
+        const moveFormController = this.application.getControllerForElementAndIdentifier(
+          moveFormElement,
+          "move-form"
+        )
+        if (moveFormController && typeof moveFormController.enableSubmit === 'function') {
+          moveFormController.enableSubmit()
+        }
+      }
+    }
+
+    // Check if game is over by checking match_completed field
+    if (move.match_completed) {
+      // Reload page to show final state
+      window.location.reload()
+    }
+  }
+
+  handleError(message) {
+    alert(`Match error: ${message}`)
+    // Reload page to show error state
     window.location.reload()
   }
 }
