@@ -7,4 +7,7 @@ VCR.configure do |c|
   c.filter_sensitive_data('<OPENAI_API_KEY>') { ENV['OPENAI_API_KEY'] }
   c.filter_sensitive_data('<ANTHROPIC_API_KEY>') { ENV['ANTHROPIC_API_KEY'] }
   c.allow_http_connections_when_no_cassette = false
+
+  # Ignore localhost connections for Selenium/Capybara system tests
+  c.ignore_hosts '127.0.0.1', 'localhost'
 end

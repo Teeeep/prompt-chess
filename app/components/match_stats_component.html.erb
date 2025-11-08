@@ -1,0 +1,53 @@
+<div class="bg-white rounded-lg shadow-md p-6">
+  <h2 class="text-xl font-bold mb-4">Stats</h2>
+
+  <div class="space-y-3">
+    <div class="flex justify-between">
+      <span class="text-gray-600">Moves:</span>
+      <span class="font-semibold"><%= @match.total_moves %></span>
+    </div>
+
+    <div class="flex justify-between">
+      <span class="text-gray-600">Tokens:</span>
+      <span class="font-semibold"><%= number_with_delimiter(@match.total_tokens_used) %></span>
+    </div>
+
+    <div class="flex justify-between">
+      <span class="text-gray-600">Cost:</span>
+      <span class="font-semibold">$<%= sprintf('%.2f', @match.total_cost_cents / 100.0) %></span>
+    </div>
+
+    <% if @match.average_move_time_ms %>
+      <div class="flex justify-between">
+        <span class="text-gray-600">Avg time:</span>
+        <span class="font-semibold"><%= @match.average_move_time_ms %>ms</span>
+      </div>
+    <% end %>
+
+    <% if @match.opening_name %>
+      <div class="flex justify-between">
+        <span class="text-gray-600">Opening:</span>
+        <span class="font-semibold"><%= @match.opening_name %></span>
+      </div>
+    <% end %>
+
+    <% if @match.status == 'completed' %>
+      <div class="pt-3 border-t">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Result:</span>
+          <span class="font-semibold text-lg
+            <%= case @match.winner
+                when 'agent' then 'text-green-600'
+                when 'stockfish' then 'text-red-600'
+                when 'draw' then 'text-gray-600'
+                end %>">
+            <%= @match.winner&.titleize %>
+          </span>
+        </div>
+        <div class="text-sm text-gray-500 mt-1">
+          <%= @match.result_reason&.titleize %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

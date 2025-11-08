@@ -1,0 +1,21 @@
+<div class="bg-white rounded-lg shadow-md p-6">
+  <h2 class="text-xl font-bold mb-4">Moves</h2>
+
+  <div class="max-h-96 overflow-y-auto">
+    <% if @match.moves.any? %>
+      <div class="space-y-2">
+        <% move_pairs.each do |pair, number| %>
+          <div class="flex items-center space-x-2 font-mono text-sm">
+            <span class="text-gray-500 w-8"><%= number %>.</span>
+            <span class="w-16"><%= pair[0].move_notation %></span>
+            <% if pair[1] %>
+              <span class="w-16"><%= pair[1].move_notation %></span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-gray-500 text-sm">No moves yet</p>
+    <% end %>
+  </div>
+</div>

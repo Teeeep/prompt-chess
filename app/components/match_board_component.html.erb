@@ -1,0 +1,14 @@
+<div class="bg-white rounded-lg shadow-md p-6">
+  <h2 class="text-xl font-bold mb-4">Board</h2>
+
+  <!-- chessboard.js container -->
+  <div id="board"
+       data-controller="chess-board"
+       data-chess-board-position-value="<%= board_fen %>"
+       class="mb-4">
+  </div>
+
+  <div class="text-sm text-gray-600">
+    <strong>FEN:</strong> <span class="font-mono text-xs"><%= board_fen %></span>
+  </div>
+</div>
