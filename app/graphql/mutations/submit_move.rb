@@ -50,7 +50,7 @@ module Mutations
       # Create move record
       move = match.moves.create!(
         player: :agent,
-        move_number: match.moves.count + 1,
+        move_number: match.moves.maximum(:move_number).to_i + 1,
         move_notation: move_notation,
         board_state_before: current_fen,
         board_state_after: new_fen,
