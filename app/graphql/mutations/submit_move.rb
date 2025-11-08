@@ -57,6 +57,9 @@ module Mutations
         response_time_ms: 0
       )
 
+      # Enqueue Stockfish response
+      StockfishResponseJob.perform_later(match.id)
+
       {
         success: true,
         move: move,

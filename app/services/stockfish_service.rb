@@ -3,6 +3,8 @@ require "timeout"
 
 class StockfishService
   class StockfishError < StandardError; end
+  class TimeoutError < StockfishError; end
+  class EngineError < StockfishError; end
 
   attr_reader :level
 
@@ -28,6 +30,27 @@ class StockfishService
 
     # Register finalizer to ensure cleanup
     ObjectSpace.define_finalizer(self, self.class.finalize(@pid))
+  end
+
+  # Class method for getting a move from Stockfish
+  # Returns the move in SAN notation (e.g., "e4", "Nf3")
+  def self.get_move(fen, level)
+    service = new(level: level)
+    result = service.get_move(fen)
+    service.close
+    result[:move]
+  rescue Timeout::Error
+    service&.close
+    raise TimeoutError, "Stockfish timed out"
+  rescue Errno::EPIPE, IOError => e
+    service&.close
+    raise EngineError, "Stockfish process died: #{e.message}"
+  rescue StockfishError => e
+    service&.close
+    raise
+  rescue => e
+    service&.close
+    raise EngineError, "Stockfish error: #{e.message}"
   end
 
   # Finalizer for cleanup when object is garbage collected
