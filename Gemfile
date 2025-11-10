@@ -53,7 +53,7 @@ gem "faraday", "~> 2.7"
 gem "faraday-retry", "~> 2.2"
 
 # OpenAI API client
-gem "ruby-openai", "~> 7.0"
+gem "ruby-openai", "~> 8.3"
 
 # ViewComponents for modular UI
 gem "view_component", "~> 4.0"
