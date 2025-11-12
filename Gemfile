@@ -56,7 +56,7 @@ gem "faraday-retry", "~> 2.2"
 gem "ruby-openai", "~> 7.0"
 
 # ViewComponents for modular UI
-gem "view_component", "~> 4.0"
+gem "view_component", "~> 4.1"
 
 # Environment variables
 gem "dotenv-rails", groups: [ :development, :test ]
